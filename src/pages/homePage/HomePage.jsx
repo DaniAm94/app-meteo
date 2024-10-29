@@ -1,7 +1,11 @@
 const HomePage = () => {
     return (
         <>
-            <h1>Home</h1>
+            <h3>Home</h3>
+            <form>
+                <input type="text" placeholder="Località" />
+                <button>Cerca</button>
+            </form>
         </>
     )
 }
