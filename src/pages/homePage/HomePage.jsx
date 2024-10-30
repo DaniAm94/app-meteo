@@ -1,6 +1,7 @@
 const geocodeUrl = import.meta.env.VITE_BASE_GEOCODING_URL; // Base url per la geocodifica
 import axios from "axios";
-import { useState } from "react";
+import { debounce } from "lodash";
+import { useCallback, useState } from "react";
 
 const HomePage = () => {
 
@@ -22,7 +23,7 @@ const HomePage = () => {
      * Funzione che cerca le località che hanno una corrispondenza con  quella inserita dall'utente
      * @param {String} newValue la stringa inserita dall'utente
      */
-    const searchLocations = async (newValue) => {
+    const searchLocations = useCallback(debounce(async (newValue) => {
 
         // Blocco la funzione se newValue è una stringa minore di 3 caratteri
         if (newValue.length < 3) return;
@@ -40,7 +41,9 @@ const HomePage = () => {
         } catch (err) {
             console.error(err)
         }
-    };
+    }, 2000),
+        [] // Le dipendenze vuote assicurano che debounce venga memorizzato solo una volta
+    );
 
     const handleChange = (newValue) => {
 
