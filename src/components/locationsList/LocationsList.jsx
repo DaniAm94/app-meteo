@@ -1,4 +1,4 @@
-const LocationsList = ({ locations }) => {
+const LocationsList = ({ locations, fetchWheatherConditions }) => {
     return (
         <>
             {/* Se c'è almeno una location mostro la lista */}
@@ -8,7 +8,7 @@ const LocationsList = ({ locations }) => {
                     locations.map(location => <li
                         key={location.id}
                     >
-                        <button>
+                        <button onClick={() => fetchWheatherConditions(location)}>
                             {`${location.country_code} - ${location.name}`}
                             <hr />
 

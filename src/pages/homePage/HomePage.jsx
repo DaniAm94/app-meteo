@@ -1,4 +1,5 @@
 const geocodeUrl = import.meta.env.VITE_BASE_GEOCODING_URL; // Base url per la geocodifica
+const wheatherUrl = import.meta.env.VITE_BASE_METEO_URL; // Base url per le condizioni meteo
 import axios from "axios";
 import { debounce } from "lodash";
 import { useCallback, useState } from "react";
@@ -58,6 +59,25 @@ const HomePage = () => {
         searchLocations(newValue)
     }
 
+    const fetchWheatherConditions = async (location) => {
+
+        // Configuro i miei params per la query string
+        const params = {
+            latitude: location.latitude,
+            longitude: location.longitude,
+            current: "temperature_2m,relative_humidity_2m,apparent_temperature,is_day,rain,showers,snowfall,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m",
+            timezone: "auto",
+
+        }
+
+        try {
+            const { data } = await axios.get(wheatherUrl, { params });
+            console.log(data.current);
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
 
 
     return (
@@ -71,7 +91,7 @@ const HomePage = () => {
                     value={name}
                     onChange={e => handleChange(e.target.value)}
                 />
-                <LocationsList locations={locations} />
+                <LocationsList locations={locations} fetchWheatherConditions={fetchWheatherConditions} />
 
             </form>
         </>
