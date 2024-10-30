@@ -1,5 +1,5 @@
 const geocodeUrl = import.meta.env.VITE_BASE_GEOCODING_URL; // Base url per la geocodifica
-const wheatherUrl = import.meta.env.VITE_BASE_METEO_URL; // Base url per le condizioni meteo
+const weatherUrl = import.meta.env.VITE_BASE_METEO_URL; // Base url per le condizioni meteo
 import axios from "axios";
 import { debounce } from "lodash";
 import { useCallback, useState } from "react";
@@ -59,7 +59,7 @@ const HomePage = () => {
         searchLocations(newValue)
     }
 
-    const fetchWheatherConditions = async (location) => {
+    const fetchWeatherConditions = async (location) => {
 
         // Configuro i miei params per la query string
         const params = {
@@ -71,7 +71,7 @@ const HomePage = () => {
         }
 
         try {
-            const { data } = await axios.get(wheatherUrl, { params });
+            const { data } = await axios.get(weatherUrl, { params });
             console.log(data.current);
         } catch (err) {
             console.error(err);
@@ -91,7 +91,7 @@ const HomePage = () => {
                     value={name}
                     onChange={e => handleChange(e.target.value)}
                 />
-                <LocationsList locations={locations} fetchWheatherConditions={fetchWheatherConditions} />
+                <LocationsList locations={locations} fetchWeatherConditions={fetchWeatherConditions} />
 
             </form>
         </>
