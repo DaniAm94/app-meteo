@@ -26,8 +26,11 @@ const HomePage = () => {
      */
     const searchLocations = useCallback(debounce(async (newValue) => {
 
-        // Blocco la funzione se newValue è una stringa minore di 3 caratteri
-        if (newValue.length < 3) return;
+        // Blocco la funzione se newValue è una stringa minore di 3 caratteri e svuoto l'array locations
+        if (newValue.trim().length < 3) {
+            setLocations([])
+            return
+        };
 
         try {
             // Chiamata axios all'endpoint per la geocodifica (passo un oggetto con chiave params che racchiude i parametri per la query string)
