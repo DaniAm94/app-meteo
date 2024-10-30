@@ -2,6 +2,7 @@ const geocodeUrl = import.meta.env.VITE_BASE_GEOCODING_URL; // Base url per la g
 import axios from "axios";
 import { debounce } from "lodash";
 import { useCallback, useState } from "react";
+import LocationsList from "../../components/locationsList/LocationsList";
 
 const HomePage = () => {
 
@@ -41,7 +42,7 @@ const HomePage = () => {
         } catch (err) {
             console.error(err)
         }
-    }, 2000),
+    }, 500),
         [] // Le dipendenze vuote assicurano che debounce venga memorizzato solo una volta
     );
 
@@ -67,31 +68,8 @@ const HomePage = () => {
                     value={name}
                     onChange={e => handleChange(e.target.value)}
                 />
-                {/* Se c'è almeno una location mostro la lista */}
-                {locations?.length > 0 && <ul>
-                    {
-                        // Mostro una lista di button per ogni location
-                        locations.map(location => <li
-                            key={location.id}
-                        >
-                            <button>
-                                {`${location.country_code} - ${location.name}`}
-                                <hr />
+                <LocationsList locations={locations} />
 
-                                {/* Mostra la regione e la provincia se presenti, e se la provincia non corrisponde alla località cercata */}
-                                <small>{`
-                                    ${location.admin1 ? location.admin1 : ''}
-                                     ${location.admin2 ?
-                                        location.admin2 !== location.name ?
-                                            ' - ' + location.admin2
-                                            : ''
-                                        : ''}
-                                     `}
-                                </small>
-                            </button>
-                        </li>)
-                    }
-                </ul>}
             </form>
         </>
     )
