@@ -82,7 +82,7 @@ const HomePage = () => {
             const { data } = await axios.get(weatherUrl, { params });
             console.log(data.current);
             setLocationWeather({
-                location: location.name,
+                place: location.name,
                 country: location.country_code,
                 ...data.current
             })
