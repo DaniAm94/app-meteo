@@ -4,6 +4,7 @@ import axios from "axios";
 import { debounce } from "lodash";
 import { useCallback, useState } from "react";
 import LocationsList from "../../components/locationsList/LocationsList";
+import WeatherDisplay from "../../components/weatherDisplay/WeatherDisplay";
 
 const HomePage = () => {
 
@@ -103,7 +104,12 @@ const HomePage = () => {
                     value={name}
                     onChange={e => handleChange(e.target.value)}
                 />
+
+                {/* Lista delle località */}
                 <LocationsList locations={locations} fetchWeatherConditions={fetchWeatherConditions} />
+
+                {/* Sezione che mostra le condizioni meteo della località scelta */}
+                <WeatherDisplay weatherConditions={locationWeather} />
             </form>
         </>
     )
