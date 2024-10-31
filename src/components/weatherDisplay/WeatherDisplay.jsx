@@ -5,16 +5,8 @@ const WeatherDisplay = ({ weatherConditions }) => {
 
     // Destrutturo weatherConditions e rinomino eventuali attributi
     const {
-        place,
-        country,
-        temperature_2m: temperature,
-        apparent_temperature: apparentTemperature,
-        weather_code: weatherCode,
-        relative_humidity_2m: humidity,
-        precipitation,
-        cloud_cover: cloudCover,
-        wind_speed_10m: windSpeed,
-        wind_direction_10m: windDirection
+        location,
+        weather
     } = weatherConditions;
 
     // Mappatura per il weatherCode
@@ -73,23 +65,38 @@ const WeatherDisplay = ({ weatherConditions }) => {
     return (
         <section>
             <hr />
-            <h2>{`${place} - ${country}`}</h2>
-            <h4>{`${Math.round(temperature)}°C | ${weatherCodeMap[weatherCode]}`}</h4>
+
+            {/* Informazioni sulla località */}
+            <h2>{`${location.country_code} - ${location.name}`}</h2>
+
+            <h3>{`
+            ${location.admin1 ?
+                    location.admin1 :
+                    ''}
+            ${location.admin2 ?
+                    location.admin2 !== location.name ?
+                        ' - ' + location.admin2 :
+                        '' :
+                    ''}
+              `}</h3>
+
+            {/* Informaizoni sul meteo */}
+            <h4>{`${Math.round(weather.temperature_2m)}°C | ${weatherCodeMap[weather.weather_code]}`}</h4>
             <div>
                 <h5>Temperatura percepita</h5>
-                {`${apparentTemperature}°C`}
+                {`${weather.apparent_temperature}°C`}
             </div>
             <div>
                 <h5>Vento</h5>
-                {`${windSpeed}km/h da ${windDirectionString(windDirection)}`}
+                {`${weather.wind_speed_10m}km/h da ${windDirectionString(weather.wind_direction_10m)}`}
             </div>
             <div>
                 <h5>Umidità</h5>
-                {`${humidity}%`}
+                {`${weather.relative_humidity_2m}%`}
             </div>
             <div>
                 <h5>Nuvolosità</h5>
-                {`${cloudCover}%`}
+                {`${weather.cloud_cover}%`}
             </div>
 
         </section>
