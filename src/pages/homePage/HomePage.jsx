@@ -1,4 +1,5 @@
 const geocodeUrl = import.meta.env.VITE_BASE_GEOCODING_URL; // Base url per la geocodifica
+const weatherUrl = import.meta.env.VITE_BASE_METEO_URL; // Base url per le condizioni meteo
 import axios from "axios";
 import { debounce } from "lodash";
 import { useCallback, useState } from "react";
@@ -19,6 +20,8 @@ const HomePage = () => {
     //Array in cui inseriro la lista di località che hanno una corrispondenza con quella inserita dall'utente
     const [locations, setLocations] = useState([])
 
+    const [locationWeather, setLocationWeather] = useState(null)
+
 
     /**
      * Funzione che cerca le località che hanno una corrispondenza con  quella inserita dall'utente
@@ -26,8 +29,11 @@ const HomePage = () => {
      */
     const searchLocations = useCallback(debounce(async (newValue) => {
 
-        // Blocco la funzione se newValue è una stringa minore di 3 caratteri
-        if (newValue.length < 3) return;
+        // Blocco la funzione se newValue è una stringa minore di 3 caratteri e svuoto l'array locations
+        if (newValue.trim().length < 3) {
+            setLocations([])
+            return
+        };
 
         try {
             // Chiamata axios all'endpoint per la geocodifica (passo un oggetto con chiave params che racchiude i parametri per la query string)
@@ -55,6 +61,35 @@ const HomePage = () => {
         searchLocations(newValue)
     }
 
+    const fetchWeatherConditions = async (location) => {
+
+        // Configuro i miei params per la query string
+        const params = {
+
+            // Coordinate della località cercata
+            latitude: location.latitude,
+            longitude: location.longitude,
+
+            // Dati relativi al meteo attuale
+            current: "temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m",
+
+            timezone: "auto",
+
+        }
+
+        try {
+            const { data } = await axios.get(weatherUrl, { params });
+            console.log(data.current);
+            setLocationWeather({
+                location: location.name,
+                country: location.country_code,
+                ...data.current
+            })
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
 
 
     return (
@@ -68,8 +103,7 @@ const HomePage = () => {
                     value={name}
                     onChange={e => handleChange(e.target.value)}
                 />
-                <LocationsList locations={locations} />
-
+                <LocationsList locations={locations} fetchWeatherConditions={fetchWeatherConditions} />
             </form>
         </>
     )
