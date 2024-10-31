@@ -52,7 +52,30 @@ const WeatherDisplay = ({ weatherConditions }) => {
 
     return (
         <section>
-            <h2>{place}</h2>
+            <hr />
+            <h2>{`${place} - ${country}`}</h2>
+            <h4>{`${Math.round(temperature)}°C | ${weatherCodeMap[weatherCode]}`}</h4>
+            <div>
+                <h5>Temperatura percepita</h5>
+                {`${apparentTemperature}°C`}
+            </div>
+            <div>
+                <h5>Vento</h5>
+                {`${windSpeed}km/h da ${windDirection}`}
+            </div>
+            <div>
+                <h5>Umidità</h5>
+                {`${humidity}%`}
+            </div>
+            <div>
+                <h5>Precipitazioni</h5>
+                {`${precipitation}mm`} <address>negli ultimi 15 min</address>
+            </div>
+            <div>
+                <h5>Nuvolosità</h5>
+                {`${cloudCover}%`}
+            </div>
+
         </section>
     )
 }
