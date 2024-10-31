@@ -53,6 +53,11 @@ const HomePage = () => {
         [] // Le dipendenze vuote assicurano che debounce venga memorizzato solo una volta
     );
 
+
+    /**
+     * Funzione che all'input dell'utente salva il valore inserito nello state name e cerca le locations che hanno una corrispondenza 
+     * @param {String} newValue 
+     */
     const handleChange = (newValue) => {
 
         // Aggiorno il valore di name
@@ -62,6 +67,11 @@ const HomePage = () => {
         searchLocations(newValue)
     }
 
+
+    /**
+     * Funzione che raccoglie le condizioni meteorologiche di una località passata come parametro e le salva nello state locationWeather
+     * @param {Object} location Località cercata
+     */
     const fetchWeatherConditions = async (location) => {
 
         // Configuro i miei params per la query string
@@ -72,7 +82,7 @@ const HomePage = () => {
             longitude: location.longitude,
 
             // Dati relativi al meteo attuale
-            current: "temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m",
+            current: "temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m",
 
             timezone: "auto",
 

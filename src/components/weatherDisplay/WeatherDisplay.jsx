@@ -88,10 +88,6 @@ const WeatherDisplay = ({ weatherConditions }) => {
                 {`${humidity}%`}
             </div>
             <div>
-                <h5>Precipitazioni</h5>
-                {`${precipitation}mm`} <address>negli ultimi 15 min</address>
-            </div>
-            <div>
                 <h5>Nuvolosità</h5>
                 {`${cloudCover}%`}
             </div>
