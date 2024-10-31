@@ -50,6 +50,26 @@ const WeatherDisplay = ({ weatherConditions }) => {
     }
 
 
+    /**
+     * Funzione che restituisce la direzione del vento in stringa es. Nord, Sud-Est a partire da una direzione del vento in gradi
+     * @param {Number} directionDegrees direzione del vento in gradi 
+     * @returns {String} La direzione del vento formato stringa
+     */
+    const windDirectionString = (directionDegrees) => {
+
+        // Array delle direzioni
+        const directions = [
+            "Nord", "Nord-Est", "Est", "Sud-Est",
+            "Sud", "Sud-Ovest", "Ovest", "Nord-Ovest"
+        ];
+
+        // Calcola l'indice della direzione (ogni direzione avrà un range di 45°)
+        const index = Math.round(((directionDegrees % 360) / 45));
+
+        return directions[index];
+    }
+
+
     return (
         <section>
             <hr />
@@ -61,7 +81,7 @@ const WeatherDisplay = ({ weatherConditions }) => {
             </div>
             <div>
                 <h5>Vento</h5>
-                {`${windSpeed}km/h da ${windDirection}`}
+                {`${windSpeed}km/h da ${windDirectionString(windDirection)}`}
             </div>
             <div>
                 <h5>Umidità</h5>
