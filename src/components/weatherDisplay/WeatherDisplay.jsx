@@ -17,6 +17,38 @@ const WeatherDisplay = ({ weatherConditions }) => {
         wind_direction_10m: windDirection
     } = weatherConditions;
 
+    // Mappatura per il weatherCode
+    const weatherCodeMap = {
+        0: "Cielo sereno",
+        1: "Principalmente sereno",
+        2: "Parzialmente nuvoloso",
+        3: "Nuvoloso",
+        45: "Nebbia",
+        48: 45,
+        51: "Pioviggine",
+        53: 51,
+        55: 51,
+        56: 51,
+        57: 51,
+        61: "Pioggia",
+        63: 61,
+        65: 61,
+        66: 61,
+        67: 61,
+        71: "Neve",
+        73: 71,
+        75: 71,
+        77: 71,
+        80: "Acquazzone",
+        81: 80,
+        82: 80,
+        85: "Nevischio",
+        86: 85,
+        95: "Temporale",
+        96: "Grandine",
+        99: 96
+    }
+
 
     return (
         <section>
