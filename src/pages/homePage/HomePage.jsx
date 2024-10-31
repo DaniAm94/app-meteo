@@ -20,6 +20,8 @@ const HomePage = () => {
     //Array in cui inseriro la lista di località che hanno una corrispondenza con quella inserita dall'utente
     const [locations, setLocations] = useState([])
 
+    const [locationWeather, setLocationWeather] = useState(null)
+
 
     /**
      * Funzione che cerca le località che hanno una corrispondenza con  quella inserita dall'utente
@@ -63,9 +65,14 @@ const HomePage = () => {
 
         // Configuro i miei params per la query string
         const params = {
+
+            // Coordinate della località cercata
             latitude: location.latitude,
             longitude: location.longitude,
-            current: "temperature_2m,relative_humidity_2m,apparent_temperature,is_day,rain,showers,snowfall,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m",
+
+            // Dati relativi al meteo attuale
+            current: "temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m",
+
             timezone: "auto",
 
         }
@@ -73,6 +80,11 @@ const HomePage = () => {
         try {
             const { data } = await axios.get(weatherUrl, { params });
             console.log(data.current);
+            setLocationWeather({
+                location: location.name,
+                country: location.country_code,
+                ...data.current
+            })
         } catch (err) {
             console.error(err);
         }
@@ -92,7 +104,6 @@ const HomePage = () => {
                     onChange={e => handleChange(e.target.value)}
                 />
                 <LocationsList locations={locations} fetchWeatherConditions={fetchWeatherConditions} />
-
             </form>
         </>
     )
