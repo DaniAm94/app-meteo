@@ -1,9 +1,13 @@
+import { FaRegStar } from "react-icons/fa6";
+import { FaStar } from "react-icons/fa6";
+
+
 const WeatherDisplay = ({ weatherConditions }) => {
 
     // Se le condizioni meteorologiche sono null blocco il rendering del componente
     if (weatherConditions === null) return;
 
-    // Destrutturo weatherConditions e rinomino eventuali attributi
+    // Destrutturo weatherConditions
     const {
         location,
         weather
@@ -60,7 +64,6 @@ const WeatherDisplay = ({ weatherConditions }) => {
 
         return directions[index];
     }
-
 
     return (
         <section>
