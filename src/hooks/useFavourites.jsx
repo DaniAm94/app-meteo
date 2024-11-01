@@ -69,6 +69,14 @@ const useFavourites = () => {
             })
         }
     }
-    return [state, changeState]
+
+    /**
+         * Funzione che mi dice se una location è già presente nei preferiti
+         * @param {Object} newFavourite 
+         * @returns {Boolean} restituisce true se presente, false altrimenti
+         */
+    const includesFavourite = (newFavourite) => state.some(favourite => favourite.id === newFavourite.id);
+
+    return [state, changeState, includesFavourite]
 }
 export default useFavourites;
