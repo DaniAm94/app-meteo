@@ -1,5 +1,6 @@
 import { FaRegStar } from "react-icons/fa6";
 import { FaStar } from "react-icons/fa6";
+import useFavourites from "../../hooks/useFavourites";
 
 
 const WeatherDisplay = ({ weatherConditions }) => {
@@ -65,9 +66,21 @@ const WeatherDisplay = ({ weatherConditions }) => {
         return directions[index];
     }
 
+    const [favourites, setFavourites, includesFavourite] = useFavourites();
+
     return (
         <section>
             <hr />
+
+            {/* Bottone per aggiungere o rimuovere una location dai preferiti */}
+            <button onClick={() => setFavourites(location)}>
+
+                {/* Ternario per toggolare le due icone */}
+                {!includesFavourite(undefined, location) ?
+                    <FaRegStar /> :
+                    <FaStar />
+                }
+            </button>
 
             {/* Informazioni sulla località */}
             <h2>{`${location.country_code} - ${location.name}`}</h2>
