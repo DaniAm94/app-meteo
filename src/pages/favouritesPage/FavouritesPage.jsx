@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useFavourites from "../../hooks/useFavourites";
 import axios from "axios";
 const weatherUrl = import.meta.env.VITE_BASE_METEO_URL;
@@ -12,6 +12,37 @@ const FavouritesPage = () => {
     const [locationsWeatherList, setLocationsWeatherList] = useState([])
 
 
+    // Use Effetc per fetchare le condizioni meteo di tutte le location una volta al rendering della pagina
+    useEffect(() => {
+
+        // Uso una clean up function per eseguire lo useEffect una sola volta
+        return () => {
+            console.log('Sono lo use effect')
+            const fetchAllWeatherConditions = async () => {
+                try {
+                    const weatherData = await Promise.all(
+                        favourites.map(async (location) => {
+                            // Restituisco un oggetto con due chiavi che rappresentano:
+                            return {
+                                // la location
+                                location,
+                                // le sue condizioni meteo
+                                weather: await fetchWeatherConditions(location),
+                            };
+                        })
+                    );
+                    setLocationsWeatherList(weatherData);
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+
+            if (favourites.length > 0) {
+                fetchAllWeatherConditions();
+            }
+        }
+
+    }, [favourites]); // Aggiungi favourites come dipendenza
 
 
     /**
