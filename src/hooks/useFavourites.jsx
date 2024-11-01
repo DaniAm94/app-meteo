@@ -27,10 +27,48 @@ const useFavourites = () => {
             // Altrimenti restituisco restituisco l'array di preferiti
             JSON.parse(favourites);
     });
-    return (
-        <>
 
-        </>
-    )
+    /**
+     * Funzione che modifica lo state e aggiorna il LocalStorage a seconda del payload fornito
+     * @param {Function|Object} payload il nuovo stato, può essere assegnato con una funzione o direttamente con un oggetto 
+     */
+    const changeState = (payload) => {
+
+        // Se il payload è una funzione
+        if (typeof payload === 'function') {
+
+            // Passo la funzione al setState per aggiornare lo state
+            setState(payload);
+
+            // Passo una funzione al setState per poter leggere lo state attuale
+            setState(curr => {
+
+                // Aggiorno il LocalStorage con il valore dello state appena aggiornato
+                localStorage.setItem('favourites', JSON.stringify(curr));
+
+                // Ritorno allo state il valore precedente che avevo già aggiornato
+                return curr;
+            })
+
+            // Se il payload non è una funzione (sarà la nuova location da salvare)
+        } else {
+
+            // La assegno ad una nuova variabile (il nome è più esplicativo)
+            const newFavourite = payload;
+
+            // Per settare il nuovo state di preferiti...
+            setState(curr => {
+                // Creo l'array aggiornato: array corrente + nuovo preferito
+                const updatedState = [...curr, newFavourite];
+
+                // Aggiorno il valore dei preferiti nel LocalStorage
+                localStorage.setItem('favourites', JSON.stringify(updatedState));
+
+                // Ritorno il valore aggiornato allo state
+                return updatedState;
+            })
+        }
+    }
+    return [state, changeState]
 }
 export default useFavourites;
