@@ -3,9 +3,8 @@ const weatherUrl = import.meta.env.VITE_BASE_METEO_URL; // Base url per le condi
 import axios from "axios";
 import { debounce } from "lodash";
 import { useCallback, useState } from "react";
-import LocationsList from "../../components/locationsList/LocationsList";
-import WeatherDisplay from "../../components/weatherDisplay/WeatherDisplay";
-
+import LocationsList from "./components/locationsList/LocationsList";
+import WeatherDisplay from "./components/weatherDisplay/WeatherDisplay";
 const HomePage = () => {
 
 
@@ -44,7 +43,6 @@ const HomePage = () => {
                     name: newValue //Per problemi di asincronicità di setName devo passare direttamente il newValue perchè il campo name potrebbe non essere ancora aggiornato
                 }
             })
-            console.log(data.results)
             setLocations(data.results)  // Salvo il risultato nel mio state locations
         } catch (err) {
             console.error(err)
@@ -90,7 +88,6 @@ const HomePage = () => {
 
         try {
             const { data } = await axios.get(weatherUrl, { params });
-            console.log(data.current);
             setLocationWeather({
                 location,
                 weather: data.current
