@@ -1,4 +1,7 @@
+import { useState } from "react";
 import useFavourites from "../../hooks/useFavourites";
+import axios from "axios";
+const weatherUrl = import.meta.env.VITE_BASE_METEO_URL;
 
 
 const FavouritesPage = () => {
@@ -6,6 +9,7 @@ const FavouritesPage = () => {
     const [favourites, setFavourites, includesFavourite] = useFavourites()
 
 
+    const [locationsWeatherList, setLocationsWeatherList] = useState([])
 
 
 
