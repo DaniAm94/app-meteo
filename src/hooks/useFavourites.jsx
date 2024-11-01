@@ -34,48 +34,39 @@ const useFavourites = () => {
      */
     const changeState = (payload) => {
 
-        // Se il payload è una funzione
-        if (typeof payload === 'function') {
 
-            // Passo la funzione al setState per aggiornare lo state
-            setState(payload);
+        setState(curr => {
 
-            // Passo una funzione al setState per poter leggere lo state attuale
-            setState(curr => {
+            // Calcolo lo state aggiornato in base al tipo di payload
+            // Se è una funzione la eseguo e raccolgo il suo valore di ritorno dentro updatedState
+            const updatedState = typeof payload === 'function' ?
+                payload(curr) : (
+                    // Altrimenti, se è un oggetto location:
+                    // Controllo se è già presente tra i preferiti
+                    includesFavourite(curr, payload) ?
+                        // Se si, restituisco l'array filtrato senza il nuovo elemento
+                        curr.filter(fav => fav.id !== payload.id) :
+                        // Se no, restituisco un array contenente gli elementi già presenti più il nuovo elemento
+                        [...curr, payload]
+                );
 
-                // Aggiorno il LocalStorage con il valore dello state appena aggiornato
-                localStorage.setItem('favourites', JSON.stringify(curr));
+            // Aggiorno il LocalStorage
+            localStorage.setItem('favourites', JSON.stringify(updatedState));
 
-                // Ritorno allo state il valore precedente che avevo già aggiornato
-                return curr;
-            })
+            // Ritorno lo stato aggiornato
+            return updatedState;
 
-            // Se il payload non è una funzione (sarà la nuova location da salvare)
-        } else {
+        })
 
-            // La assegno ad una nuova variabile (il nome è più esplicativo)
-            const newFavourite = payload;
-
-            // Per settare il nuovo state di preferiti...
-            setState(curr => {
-                // Creo l'array aggiornato: array corrente + nuovo preferito
-                const updatedState = [...curr, newFavourite];
-
-                // Aggiorno il valore dei preferiti nel LocalStorage
-                localStorage.setItem('favourites', JSON.stringify(updatedState));
-
-                // Ritorno il valore aggiornato allo state
-                return updatedState;
-            })
-        }
     }
 
     /**
-         * Funzione che mi dice se una location è già presente nei preferiti
-         * @param {Object} newFavourite 
-         * @returns {Boolean} restituisce true se presente, false altrimenti
-         */
-    const includesFavourite = (newFavourite) => state.some(favourite => favourite.id === newFavourite.id);
+     * Funzione che controlla se un oggetto location è già presente nello state corrente
+     * @param {Array} currentFavourites 
+     * @param {Object} newFavourite 
+     * @returns {Boolean} restituisce true se presente, false altrimenti
+     */
+    const includesFavourite = (currentFavourites = state, newFavourite) => currentFavourites.some(favourite => favourite.id === newFavourite.id);
 
     return [state, changeState, includesFavourite]
 }
