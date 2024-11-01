@@ -1,7 +1,6 @@
 import { FaRegStar } from "react-icons/fa6";
 import { FaStar } from "react-icons/fa6";
-import useFavourites from "../../hooks/useFavourites";
-
+import useFavourites from "../../../../hooks/useFavourites.jsx";
 
 const WeatherDisplay = ({ weatherConditions }) => {
 

@@ -3,9 +3,8 @@ const weatherUrl = import.meta.env.VITE_BASE_METEO_URL; // Base url per le condi
 import axios from "axios";
 import { debounce } from "lodash";
 import { useCallback, useState } from "react";
-import LocationsList from "../../components/locationsList/LocationsList";
-import WeatherDisplay from "../../components/weatherDisplay/WeatherDisplay";
-
+import LocationsList from "./components/locationsList/LocationsList";
+import WeatherDisplay from "./components/weatherDisplay/WeatherDisplay";
 const HomePage = () => {
 
 
