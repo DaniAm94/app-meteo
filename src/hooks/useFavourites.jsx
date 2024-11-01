@@ -41,11 +41,14 @@ const useFavourites = () => {
             // Se è una funzione la eseguo e raccolgo il suo valore di ritorno dentro updatedState
             const updatedState = typeof payload === 'function' ?
                 payload(curr) : (
-                    // Altrimenti, se è un oggetto location:
+
+                    // Altrimenti, se è un oggetto location...
                     // Controllo se è già presente tra i preferiti
                     includesFavourite(curr, payload) ?
+
                         // Se si, restituisco l'array filtrato senza il nuovo elemento
                         curr.filter(fav => fav.id !== payload.id) :
+
                         // Se no, restituisco un array contenente gli elementi già presenti più il nuovo elemento
                         [...curr, payload]
                 );
@@ -61,10 +64,10 @@ const useFavourites = () => {
     }
 
     /**
-     * Funzione che controlla se un oggetto location è già presente nello state corrente
-     * @param {Array} currentFavourites 
-     * @param {Object} newFavourite 
-     * @returns {Boolean} restituisce true se presente, false altrimenti
+     * Funzione che verifica se un oggetto location è già presente tra i preferiti
+     * @param {Array} currentFavourites array attuale di preferiti, di defaul avrà valore corrente dello state 
+     * @param {*} newFavourite il nuovo elemento da controllare
+     * @returns {Boolean} restituisce true se presente, false altriemnti
      */
     const includesFavourite = (currentFavourites = state, newFavourite) => currentFavourites.some(favourite => favourite.id === newFavourite.id);
 
