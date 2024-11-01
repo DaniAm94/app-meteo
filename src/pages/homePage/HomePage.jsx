@@ -44,7 +44,6 @@ const HomePage = () => {
                     name: newValue //Per problemi di asincronicità di setName devo passare direttamente il newValue perchè il campo name potrebbe non essere ancora aggiornato
                 }
             })
-            console.log(data.results)
             setLocations(data.results)  // Salvo il risultato nel mio state locations
         } catch (err) {
             console.error(err)
@@ -90,7 +89,6 @@ const HomePage = () => {
 
         try {
             const { data } = await axios.get(weatherUrl, { params });
-            console.log(data.current);
             setLocationWeather({
                 location,
                 weather: data.current

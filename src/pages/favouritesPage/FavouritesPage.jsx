@@ -2,47 +2,37 @@ import { useEffect, useState } from "react";
 import useFavourites from "../../hooks/useFavourites";
 import axios from "axios";
 const weatherUrl = import.meta.env.VITE_BASE_METEO_URL;
+import { FaTrashAlt } from "react-icons/fa";
 
 
 const FavouritesPage = () => {
 
-    const [favourites, setFavourites, includesFavourite] = useFavourites()
+    const [favourites, setFavourites] = useFavourites()
 
 
+    // State dove conservare la lista delle location preferite con le loro condizioni meteo
     const [locationsWeatherList, setLocationsWeatherList] = useState([])
 
 
-    // Use Effetc per fetchare le condizioni meteo di tutte le location una volta al rendering della pagina
+    // Use Effetc per fetchare le condizioni meteo di tutte le location al rendering della pagina
     useEffect(() => {
 
-        // Uso una clean up function per eseguire lo useEffect una sola volta
-        return () => {
-            console.log('Sono lo use effect')
-            const fetchAllWeatherConditions = async () => {
-                try {
-                    const weatherData = await Promise.all(
-                        favourites.map(async (location) => {
-                            // Restituisco un oggetto con due chiavi che rappresentano:
-                            return {
-                                // la location
-                                location,
-                                // le sue condizioni meteo
-                                weather: await fetchWeatherConditions(location),
-                            };
-                        })
-                    );
-                    setLocationsWeatherList(weatherData);
-                } catch (error) {
-                    console.error(error);
-                }
-            };
-
-            if (favourites.length > 0) {
-                fetchAllWeatherConditions();
+        const fetchAllWeatherConditions = async () => {
+            try {
+                const weatherData = await Promise.all(
+                    favourites.map(async (location) => {
+                        const weather = await fetchWeatherConditions(location);
+                        return { ...location, ...weather };
+                    })
+                );
+                setLocationsWeatherList(weatherData);
+            } catch (error) {
+                console.error(error);
             }
-        }
+        };
 
-    }, [favourites]); // Aggiungi favourites come dipendenza
+        fetchAllWeatherConditions();
+    }, []);
 
 
     /**
@@ -68,11 +58,24 @@ const FavouritesPage = () => {
 
         try {
             const { data } = await axios.get(weatherUrl, { params });
-            console.log(data.current);
             return data.current;
         } catch (err) {
             console.error(err);
         }
+    }
+    /**
+     * Funzione che rimuove una location dai preferiti
+     * @param {Object} location 
+     */
+    const removeFavourite = (location) => {
+
+        setFavourites(curr =>
+            curr.filter(fav => fav.id !== location.id)
+        );
+
+        setLocationsWeatherList(curr =>
+            curr.filter(fav => fav.id !== location.id)
+        );
     }
 
     return (
@@ -80,10 +83,13 @@ const FavouritesPage = () => {
             <h1>Pagina preferiti</h1>
             <ul>
                 {
-                    favourites.map(favourite => <li
-                        key={favourite.id}
+                    locationsWeatherList.map(location => <li
+                        key={location.id}
                     >
-                        {favourite.name}
+                        <h3>{`${location.country_code} - ${location.name}`}</h3>
+                        <button onClick={() => removeFavourite(location)}>
+                            <FaTrashAlt /> rimuovi
+                        </button>
                     </li>)
                 }
             </ul>
