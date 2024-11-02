@@ -5,6 +5,7 @@ import { debounce } from "lodash";
 import { useCallback, useState } from "react";
 import LocationsList from "./components/locationsList/LocationsList";
 import WeatherDisplay from "./components/weatherDisplay/WeatherDisplay";
+import homePage from "./homePage.module.scss"
 const HomePage = () => {
 
 
@@ -101,11 +102,10 @@ const HomePage = () => {
 
     return (
         <>
-            <h3>Home</h3>
-            <form onSubmit={e => e.preventDefault()}>
+            <form className={`${homePage.search_form} p-1 bg-gradient`} onSubmit={e => e.preventDefault()}>
                 <input
                     type="text"
-                    placeholder="Località"
+                    placeholder="Cerca località"
                     name="name"
                     value={name}
                     onChange={e => handleChange(e.target.value)}
@@ -114,9 +114,9 @@ const HomePage = () => {
                 {/* Lista delle località */}
                 <LocationsList locations={locations} fetchWeatherConditions={fetchWeatherConditions} />
 
-                {/* Sezione che mostra le condizioni meteo della località scelta */}
-                <WeatherDisplay weatherConditions={locationWeather} />
             </form>
+            {/* Sezione che mostra le condizioni meteo della località scelta */}
+            <WeatherDisplay weatherConditions={locationWeather} />
         </>
     )
 }
