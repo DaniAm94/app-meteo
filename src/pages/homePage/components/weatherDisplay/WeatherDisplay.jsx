@@ -2,6 +2,7 @@ import { FaRegStar, FaStar, FaXmark } from "react-icons/fa6";
 import useFavourites from "../../../../hooks/useFavourites.jsx";
 import weatherDisplay from "./weatherDisplay.module.scss"
 import { useEffect, useRef } from "react";
+const icons = import.meta.glob("../../../../assets/icons/*.png", { eager: true });
 
 const WeatherDisplay = ({ weatherConditions, onClose }) => {
 
@@ -98,23 +99,26 @@ const WeatherDisplay = ({ weatherConditions, onClose }) => {
 
                         </h2>
 
-                        <h3>{`
-            ${location.admin1 ?
+                        <h3>{
+                            `${location.admin1 ?
                                 location.admin1 :
                                 ''}
-            ${location.admin2 ?
+                            ${location.admin2 ?
                                 location.admin2 !== location.name ?
                                     ' - ' + location.admin2 :
                                     '' :
-                                ''}
-              `}</h3>
+                                ''}`
+                        }</h3>
                     </div>
 
 
                     {/* Informaizoni sul meteo */}
 
                     {/* Condizione attuale */}
-                    <h4>{weatherCodeMap[weather.weather_code]}</h4>
+                    <div className={weatherDisplay.current_meteo}>
+                        <h4>{weatherCodeMap[weather.weather_code]}</h4>
+                        <img src={icons[`../../../../assets/icons/${weatherCodeMap[weather.weather_code]}.png`]?.default} alt={weatherCodeMap[weather.weather_code]} />
+                    </div>
 
                     {/* Temperatura */}
                     <h4>{`${Math.round(weather.temperature_2m)}°C`}</h4>
