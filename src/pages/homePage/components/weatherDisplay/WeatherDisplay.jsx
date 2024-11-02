@@ -1,11 +1,12 @@
-import { FaRegStar } from "react-icons/fa6";
-import { FaStar } from "react-icons/fa6";
+import { FaRegStar, FaStar, FaXmark } from "react-icons/fa6";
 import useFavourites from "../../../../hooks/useFavourites.jsx";
+import weatherDisplay from "./weatherDisplay.module.scss"
+import { useEffect, useRef } from "react";
 
-const WeatherDisplay = ({ weatherConditions }) => {
+const WeatherDisplay = ({ weatherConditions, onClose }) => {
 
     // Se le condizioni meteorologiche sono null blocco il rendering del componente
-    if (weatherConditions === null) return;
+    if (weatherConditions === null) return null;
 
     // Destrutturo weatherConditions
     const {
@@ -67,54 +68,93 @@ const WeatherDisplay = ({ weatherConditions }) => {
 
     const [favourites, setFavourites, includesFavourite] = useFavourites();
 
+
+
+
     return (
-        <section>
-            <hr />
+        <>
+            <div className={weatherDisplay.overlay}>
+                <div className={weatherDisplay.weather_modal}>
 
-            {/* Bottone per aggiungere o rimuovere una location dai preferiti */}
-            <button onClick={() => setFavourites(location)}>
+                    {/* Bottone per aggiungere o rimuovere una location dai preferiti */}
+                    <button
+                        className={weatherDisplay.fav_button}
+                        onClick={() => setFavourites(location)}
+                    >
 
-                {/* Ternario per toggolare le due icone */}
-                {!includesFavourite(undefined, location) ?
-                    <FaRegStar /> :
-                    <FaStar />
-                }
-            </button>
+                        {/* Ternario per toggolare le due icone */}
+                        {!includesFavourite(undefined, location) ?
+                            <FaRegStar /> :
+                            <FaStar />
+                        }
+                    </button>
+                    <div className={weatherDisplay.weather_modal_header}>
 
-            {/* Informazioni sulla località */}
-            <h2>{`${location.country_code} - ${location.name}`}</h2>
 
-            <h3>{`
+                        {/* Informazioni sulla località */}
+                        <h2 className="d-flex justify-content-between">
+                            {`${location.country_code} - ${location.name}`}
+
+
+                        </h2>
+
+                        <h3>{`
             ${location.admin1 ?
-                    location.admin1 :
-                    ''}
+                                location.admin1 :
+                                ''}
             ${location.admin2 ?
-                    location.admin2 !== location.name ?
-                        ' - ' + location.admin2 :
-                        '' :
-                    ''}
+                                location.admin2 !== location.name ?
+                                    ' - ' + location.admin2 :
+                                    '' :
+                                ''}
               `}</h3>
+                    </div>
 
-            {/* Informaizoni sul meteo */}
-            <h4>{`${Math.round(weather.temperature_2m)}°C | ${weatherCodeMap[weather.weather_code]}`}</h4>
-            <div>
-                <h5>Temperatura percepita</h5>
-                {`${weather.apparent_temperature}°C`}
-            </div>
-            <div>
-                <h5>Vento</h5>
-                {`${weather.wind_speed_10m}km/h da ${windDirectionString(weather.wind_direction_10m)}`}
-            </div>
-            <div>
-                <h5>Umidità</h5>
-                {`${weather.relative_humidity_2m}%`}
-            </div>
-            <div>
-                <h5>Nuvolosità</h5>
-                {`${weather.cloud_cover}%`}
-            </div>
 
-        </section>
+                    {/* Informaizoni sul meteo */}
+
+                    {/* Condizione attuale */}
+                    <h4>{weatherCodeMap[weather.weather_code]}</h4>
+
+                    {/* Temperatura */}
+                    <h4>{`${Math.round(weather.temperature_2m)}°C`}</h4>
+                    <div>
+                        <h4>
+                            Percepiti: {`${weather.apparent_temperature}°C`}
+                        </h4>
+                    </div>
+
+                    {/* Vento */}
+                    <div className={weatherDisplay.wind}>
+                        <h5>Vento:</h5>
+                        {`${weather.wind_speed_10m}km/h da ${windDirectionString(weather.wind_direction_10m)}`}
+                    </div>
+
+                    {/* Umidità */}
+                    <div className={weatherDisplay.humidity}>
+                        <h5>Umidità: </h5>
+                        {`${weather.relative_humidity_2m}%`}
+                    </div>
+
+                    {/* Nuvolosità */}
+                    <div className={weatherDisplay.cloud_cover}>
+                        <h5>Nuvolosità:</h5>
+                        {`${weather.cloud_cover}%`}
+                    </div>
+
+                    {/* Bottone chiusura */}
+                    <button
+                        onClick={onClose}
+                        className={weatherDisplay.close_button}
+                    >
+                        <FaXmark />
+
+                    </button>
+                </div>
+
+            </div>
+        </>
+
     )
 }
 export default WeatherDisplay;

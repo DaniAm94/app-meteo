@@ -23,6 +23,8 @@ const HomePage = () => {
 
     const [locationWeather, setLocationWeather] = useState(null)
 
+    const [showWeatherConditions, setShowWeatherConditions] = useState(false);
+
 
     /**
      * Funzione che cerca le località che hanno una corrispondenza con  quella inserita dall'utente
@@ -93,6 +95,8 @@ const HomePage = () => {
                 location,
                 weather: data.current
             })
+            setShowWeatherConditions(true)
+
         } catch (err) {
             console.error(err);
         }
@@ -112,11 +116,11 @@ const HomePage = () => {
                 />
 
                 {/* Lista delle località */}
-                <LocationsList locations={locations} fetchWeatherConditions={fetchWeatherConditions} />
+                <LocationsList locations={locations} fetchWeatherConditions={fetchWeatherConditions} setShowDialog={setShowWeatherConditions} />
 
             </form>
             {/* Sezione che mostra le condizioni meteo della località scelta */}
-            <WeatherDisplay weatherConditions={locationWeather} />
+            <WeatherDisplay weatherConditions={locationWeather} onClose={() => setLocationWeather(null)} />
         </>
     )
 }

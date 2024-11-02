@@ -20,7 +20,10 @@ const LocationsList = ({ locations, fetchWeatherConditions }) => {
                             className=" bg-transparent border-0 w-100 h-100"
                             onMouseEnter={() => setHoveredIndex(index)}
                             onMouseLeave={() => setHoveredIndex(null)}
-                            onClick={() => fetchWeatherConditions(location)}
+                            onClick={() => {
+                                fetchWeatherConditions(location)
+                            }
+                            }
                         >
                             <div className={locationList.accordion_trigger}>
 

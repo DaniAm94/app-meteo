@@ -1,0 +1,106 @@
+.overlay {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 80px;
+    background-color: rgba($color: black, $alpha: .4);
+    backdrop-filter: blur(5px);
+
+
+    >.weather_modal {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        background-color: rgba($color: white, $alpha: .4);
+        padding: 10px 20px;
+        border-radius: 10px;
+
+        // Bottone dei preferiti
+        .fav_button {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: transparent;
+            border-radius: 10px;
+            color: white;
+            border-color: white;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .weather_modal_header {
+
+            border-bottom: 1px solid white;
+            margin-bottom: 10px;
+
+            // Country code, localita
+            h2 {
+                font-size: 2.5rem;
+                text-wrap: nowrap;
+
+
+            }
+
+            // Regione e provincia
+            h3 {
+                font-size: 1.2rem;
+            }
+        }
+
+
+        // Temperatura, condizione meteo
+        h4 {
+            font-size: 1rem;
+        }
+
+        // Vento
+        .wind {
+            margin: 10px 0;
+
+            h5 {
+                font-size: 1rem;
+                margin-bottom: 0;
+            }
+
+        }
+
+        // Umidità, nuvolosità
+        .humidity,
+        .cloud_cover {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            column-gap: 5px;
+
+            h5 {
+                font-size: 1rem;
+                margin-bottom: 0;
+            }
+        }
+
+        // Bottone chiusura
+        .close_button {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: transparent;
+            border-radius: 10px;
+            color: white;
+            border-color: white;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+
+    }
+}
