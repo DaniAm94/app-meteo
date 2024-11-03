@@ -17,7 +17,8 @@ const DefaultLayout = () => {
             </header>
             <main >
                 <div className="container h-100 d-flex align-items-start  justify-content-center">
-
+                    <div className="jumbotron ">
+                    </div>
                     <Outlet></Outlet>
                 </div>
             </main>
