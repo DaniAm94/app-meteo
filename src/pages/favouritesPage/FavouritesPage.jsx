@@ -60,17 +60,23 @@ const FavouritesPage = () => {
         );
     }
 
+    /**
+     * Funzione che ordina i preferiti in base alla temperatura
+     */
     const orderByTemp = () => {
-        setLocationsWeatherList(curr => {
-            const sortedFavourites = [...curr];
-            sortedFavourites.sort((a, b) => {
-                return order === "asc" ?
-                    a.temperature_2m - b.temperature_2m :
-                    b.temperature_2m - a.temperature_2m;
+        if (locationsWeatherList.length) {
+
+            setLocationsWeatherList(curr => {
+                const sortedFavourites = [...curr];
+                sortedFavourites.sort((a, b) => {
+                    return order === "asc" ?
+                        a.temperature_2m - b.temperature_2m :
+                        b.temperature_2m - a.temperature_2m;
+                })
+                setOrder(order === "asc" ? "desc" : "asc");
+                return sortedFavourites;
             })
-            setOrder(order === "asc" ? "desc" : "asc");
-            return sortedFavourites;
-        })
+        }
     }
 
     return (
@@ -131,13 +137,14 @@ const FavouritesPage = () => {
 
                 {/* Corpo tabella */}
                 <tbody>
-                    {
+                    {favourites.length > 0 ?
                         locationsWeatherList.map(location => <tr
                             className={favouritesPage.row}
                             key={location.id}
                         >
                             <FavouriteLocation favLocation={location} onRemove={removeFavourite} showDetails={setLocationWeather} />
-                        </tr>)
+                        </tr>) :
+                        <tr className={favouritesPage.row}><td colSpan={6}>Non ci sono preferiti</td></tr>
                     }
                 </tbody>
             </table>
