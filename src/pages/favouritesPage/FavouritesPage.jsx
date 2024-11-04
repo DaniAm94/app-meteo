@@ -4,6 +4,8 @@ import favouritesPage from "./favouritesPage.module.scss";
 import FavouriteLocation from "./components/favouriteLocation/favouriteLocation";
 import { useGlobalContext } from "../../contexts/GlobalContext";
 import WeatherDisplay from "../../components/weatherDisplay/WeatherDisplay.jsx";
+import { FaGamepad } from "react-icons/fa6";
+
 
 const FavouritesPage = () => {
 
@@ -75,7 +77,9 @@ const FavouritesPage = () => {
                             Meteo
                         </th>
                         <th>
-                            -
+                            <div className="d-flex justify-content-center align-items-center fs-2">
+                                <FaGamepad />
+                            </div>
                         </th>
                     </tr>
                 </thead>
