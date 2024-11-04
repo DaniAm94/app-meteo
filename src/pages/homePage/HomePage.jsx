@@ -76,14 +76,19 @@ const HomePage = () => {
 
     return (
         <>
-            <form className={`${homePage.search_form} p-1 bg-gradient`} onSubmit={e => e.preventDefault()}>
-                <input
-                    type="text"
-                    placeholder="Cerca località"
-                    name="name"
-                    value={name}
-                    onChange={e => handleChange(e.target.value)}
-                />
+            <form className={`${homePage.search_form}`} onSubmit={e => e.preventDefault()}>
+
+                <div className={homePage.search_group}>
+                    <label htmlFor="location-input"> Scopri il meteo</label>
+                    <input
+                        id="location-input"
+                        type="text"
+                        placeholder="Cerca località"
+                        name="name"
+                        value={name}
+                        onChange={e => handleChange(e.target.value)}
+                    />
+                </div>
 
                 {/* Lista delle località */}
                 <LocationsList locations={locations} fetchWeatherConditions={fetchWeatherConditions} setShowDialog={setShowWeatherConditions} />
