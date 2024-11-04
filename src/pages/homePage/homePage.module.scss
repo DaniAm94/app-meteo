@@ -9,6 +9,7 @@ form.search_form {
     .search_group {
         display: flex;
         flex-direction: column;
+        row-gap: 5px;
     }
 
 
@@ -19,6 +20,13 @@ form.search_form {
         color: white;
         padding: 0 5px;
         border-radius: 5px;
+
+        &:focus {
+            color: #FFD700;
+            border-color: #FFD700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            outline: none;
+        }
 
         &::placeholder {
             color: white;
