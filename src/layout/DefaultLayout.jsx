@@ -1,7 +1,12 @@
 import { NavLink, Outlet } from "react-router-dom";
 import "./defaultLayout.scss"
 import AppLoader from "../components/appLoader/AppLoader";
+import { useGlobalContext } from "../contexts/GlobalContext";
+
+
 const DefaultLayout = () => {
+
+    const { isLoading } = useGlobalContext;
     return (
         <>
             <header >
@@ -21,7 +26,9 @@ const DefaultLayout = () => {
                     <div className="jumbotron"></div>
                     <Outlet></Outlet>
                 </div>
-                <AppLoader />
+                {isLoading &&
+                    <AppLoader />
+                }
             </main>
             <footer >
                 <div className="container h-100">
