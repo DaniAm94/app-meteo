@@ -1,6 +1,6 @@
 header,
 footer {
-    background-color: rgba($color: black, $alpha: .4);
+    background-color: rgba($color: black, $alpha: .6);
     backdrop-filter: blur(5px);
     position: fixed;
     left: 0;
@@ -55,10 +55,25 @@ header {
 
 main {
     height: calc(100vh);
+    background-image: url('/sfondo2.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, .6);
+        /* Colore bianco semi-trasparente */
+    }
 
     .container {
         height: 100%;
-        padding-top: 200px;
+        padding-top: 150px;
         position: relative;
 
         .jumbotron {

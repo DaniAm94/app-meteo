@@ -1,12 +1,15 @@
 const geocodeUrl = import.meta.env.VITE_BASE_GEOCODING_URL; // Base url per la geocodifica
-const weatherUrl = import.meta.env.VITE_BASE_METEO_URL; // Base url per le condizioni meteo
 import axios from "axios";
 import { debounce } from "lodash";
 import { useCallback, useState } from "react";
 import LocationsList from "./components/locationsList/LocationsList";
-import WeatherDisplay from "./components/weatherDisplay/WeatherDisplay";
+import WeatherDisplay from "../../components/weatherDisplay/WeatherDisplay";
 import homePage from "./homePage.module.scss"
+import { useGlobalContext } from "../../contexts/GlobalContext";
+
 const HomePage = () => {
+
+    const { fetchWeatherConditions, locationWeather, setLocationWeather, setShowWeatherConditions } = useGlobalContext();
 
 
     // Parametri di default per la geocodifica
@@ -21,9 +24,7 @@ const HomePage = () => {
     //Array in cui inseriro la lista di località che hanno una corrispondenza con quella inserita dall'utente
     const [locations, setLocations] = useState([])
 
-    const [locationWeather, setLocationWeather] = useState(null)
 
-    const [showWeatherConditions, setShowWeatherConditions] = useState(false);
 
 
     /**
@@ -69,38 +70,7 @@ const HomePage = () => {
     }
 
 
-    /**
-     * Funzione che raccoglie le condizioni meteorologiche di una località passata come parametro e le salva nello state locationWeather
-     * @param {Object} location Località cercata
-     */
-    const fetchWeatherConditions = async (location) => {
 
-        // Configuro i miei params per la query string
-        const params = {
-
-            // Coordinate della località cercata
-            latitude: location.latitude,
-            longitude: location.longitude,
-
-            // Dati relativi al meteo attuale
-            current: "temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m",
-
-            timezone: "auto",
-
-        }
-
-        try {
-            const { data } = await axios.get(weatherUrl, { params });
-            setLocationWeather({
-                location,
-                weather: data.current
-            })
-            setShowWeatherConditions(true)
-
-        } catch (err) {
-            console.error(err);
-        }
-    }
 
 
 
@@ -120,7 +90,7 @@ const HomePage = () => {
 
             </form>
             {/* Sezione che mostra le condizioni meteo della località scelta */}
-            <WeatherDisplay weatherConditions={locationWeather} onClose={() => setLocationWeather(null)} />
+            <WeatherDisplay location={locationWeather} onClose={() => setLocationWeather(null)} isFavourite={false} />
         </>
     )
 }

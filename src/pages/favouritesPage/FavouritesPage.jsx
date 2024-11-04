@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import useFavourites from "../../hooks/useFavourites";
-import axios from "axios";
-const weatherUrl = import.meta.env.VITE_BASE_METEO_URL;
-import { FaTrashAlt } from "react-icons/fa";
-
+import favouritesPage from "./favouritesPage.module.scss";
+import FavouriteLocation from "./components/favouriteLocation/favouriteLocation";
+import { useGlobalContext } from "../../contexts/GlobalContext";
+import WeatherDisplay from "../../components/weatherDisplay/WeatherDisplay.jsx";
 
 const FavouritesPage = () => {
 
     const [favourites, setFavourites] = useFavourites()
+
+    const { fetchWeatherConditions, locationWeather, setLocationWeather } = useGlobalContext();
 
 
     // State dove conservare la lista delle location preferite con le loro condizioni meteo
@@ -21,7 +23,7 @@ const FavouritesPage = () => {
             try {
                 const weatherData = await Promise.all(
                     favourites.map(async (location) => {
-                        const weather = await fetchWeatherConditions(location);
+                        const weather = await fetchWeatherConditions(location, true);
                         return { ...location, ...weather };
                     })
                 );
@@ -35,34 +37,7 @@ const FavouritesPage = () => {
     }, []);
 
 
-    /**
-     * Funzione che raccoglie le condizione metereologiche di una località passata come parametro
-     * @param {Object} location 
-     * @returns restituisce un oggetto con le condizioni meteorologiche
-     */
-    const fetchWeatherConditions = async (location) => {
 
-        // Configuro i miei params per la query string
-        const params = {
-
-            // Coordinate della località cercata
-            latitude: location.latitude,
-            longitude: location.longitude,
-
-            // Dati relativi al meteo attuale
-            current: "temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m",
-
-            timezone: "auto",
-
-        }
-
-        try {
-            const { data } = await axios.get(weatherUrl, { params });
-            return data.current;
-        } catch (err) {
-            console.error(err);
-        }
-    }
     /**
      * Funzione che rimuove una location dai preferiti
      * @param {Object} location 
@@ -79,21 +54,45 @@ const FavouritesPage = () => {
     }
 
     return (
-        <>
-            <h1>Pagina preferiti</h1>
-            <ul>
-                {
-                    locationsWeatherList.map(location => <li
-                        key={location.id}
-                    >
-                        <h3>{`${location.country_code} - ${location.name}`}</h3>
-                        <button onClick={() => removeFavourite(location)}>
-                            <FaTrashAlt /> rimuovi
-                        </button>
-                    </li>)
-                }
-            </ul>
-        </>
+        <div className={favouritesPage.table_wrapper}>
+
+            <table className={favouritesPage.favourites_table}>
+                <thead>
+                    <tr className={favouritesPage.row}>
+                        <th>
+                            Località
+                        </th>
+                        <th className="d-none d-sm-table-cell">
+                            Regione
+                        </th>
+                        <th className="d-none d-md-table-cell">
+                            Provincia
+                        </th>
+                        <th>
+                            °C
+                        </th>
+                        <th>
+                            Meteo
+                        </th>
+                        <th>
+                            -
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        locationsWeatherList.map(location => <tr
+                            className={favouritesPage.row}
+                            key={location.id}
+                        >
+                            <FavouriteLocation favLocation={location} onRemove={removeFavourite} showDetails={setLocationWeather} />
+                        </tr>)
+                    }
+                </tbody>
+            </table>
+
+            <WeatherDisplay location={locationWeather} onClose={() => setLocationWeather(null)} isFavourite={true} />
+        </div>
     )
 }
 export default FavouritesPage;

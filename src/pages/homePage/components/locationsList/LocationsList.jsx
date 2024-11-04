@@ -21,13 +21,14 @@ const LocationsList = ({ locations, fetchWeatherConditions }) => {
                             onMouseEnter={() => setHoveredIndex(index)}
                             onMouseLeave={() => setHoveredIndex(null)}
                             onClick={() => {
-                                fetchWeatherConditions(location)
+                                fetchWeatherConditions(location, false)
                             }
                             }
                         >
                             <div className={locationList.accordion_trigger}>
+                                <span className={`fi fi-${location.country_code.toLowerCase()}`}></span>
 
-                                {`${location.country_code} - ${location.name}`}
+                                {` - ${location.name}`}
                             </div>
 
                             {/* Mostra la regione e la provincia se presenti, e se la provincia non corrisponde alla località cercata */}
