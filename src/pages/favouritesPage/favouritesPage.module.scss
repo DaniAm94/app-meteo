@@ -23,6 +23,20 @@
         z-index: 3;
         backdrop-filter: blur(3px);
         text-shadow: 1px 1px 5px black;
+
+        .temp_button {
+            border-width: 0;
+            padding: 2px 4px;
+            border-radius: 3px;
+
+            &:hover {
+                border-width: 1px;
+                color: white;
+                box-shadow: none;
+                border-color: white;
+
+            }
+        }
     }
 
     tbody {

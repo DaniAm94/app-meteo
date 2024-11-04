@@ -5,6 +5,8 @@ import FavouriteLocation from "./components/favouriteLocation/favouriteLocation"
 import { useGlobalContext } from "../../contexts/GlobalContext";
 import WeatherDisplay from "../../components/weatherDisplay/WeatherDisplay.jsx";
 import { FaGamepad } from "react-icons/fa6";
+import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
+
 
 
 const FavouritesPage = () => {
@@ -12,6 +14,9 @@ const FavouritesPage = () => {
     const [favourites, setFavourites] = useFavourites()
 
     const { fetchWeatherConditions, locationWeather, setLocationWeather } = useGlobalContext();
+
+    // State che tiene memoria del tipo di ordinamento: crescente o decrescente
+    const [order, setOrder] = useState("asc");
 
 
     // State dove conservare la lista delle location preferite con le loro condizioni meteo
@@ -55,27 +60,67 @@ const FavouritesPage = () => {
         );
     }
 
+    const orderByTemp = () => {
+        setLocationsWeatherList(curr => {
+            const sortedFavourites = [...curr];
+            sortedFavourites.sort((a, b) => {
+                return order === "asc" ?
+                    a.temperature_2m - b.temperature_2m :
+                    b.temperature_2m - a.temperature_2m;
+            })
+            setOrder(order === "asc" ? "desc" : "asc");
+            return sortedFavourites;
+        })
+    }
+
     return (
         <div className={favouritesPage.table_wrapper}>
 
             <table className={favouritesPage.favourites_table}>
                 <thead>
                     <tr className={favouritesPage.row}>
+
+                        {/* Località */}
                         <th>
                             Località
                         </th>
+
+                        {/* Regione */}
                         <th className="d-none d-sm-table-cell">
                             Regione
                         </th>
+
+                        {/* Provincia */}
                         <th className="d-none d-md-table-cell">
                             Provincia
                         </th>
+
+                        {/* Temperatura attuale */}
                         <th>
-                            °C
+                            <div className="d-flex justify-content-center align-items-center">
+
+                                {/* Bottone per ordinamento in base alla temperatura */}
+                                <button
+                                    onClick={orderByTemp}
+                                    className={favouritesPage.temp_button}>
+                                    °C
+
+                                    {/* Icona che indica l'ordinamento attuale */}
+                                    {order === "asc" ?
+                                        <IoMdArrowDropup /> :
+                                        <IoMdArrowDropdown />
+
+                                    }
+                                </button>
+                            </div>
                         </th>
+
+                        {/* Condizione meteo attuale */}
                         <th>
                             Meteo
                         </th>
+
+                        {/* Tasti: dettagli, rimozione dai preferiti */}
                         <th>
                             <div className="d-flex justify-content-center align-items-center fs-2">
                                 <FaGamepad />
@@ -83,6 +128,8 @@ const FavouritesPage = () => {
                         </th>
                     </tr>
                 </thead>
+
+                {/* Corpo tabella */}
                 <tbody>
                     {
                         locationsWeatherList.map(location => <tr
@@ -95,6 +142,7 @@ const FavouritesPage = () => {
                 </tbody>
             </table>
 
+            {/* Modale che mostra i dettagli */}
             <WeatherDisplay location={locationWeather} onClose={() => setLocationWeather(null)} isFavourite={true} />
         </div>
     )
