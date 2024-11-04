@@ -1,11 +1,21 @@
 import { NavLink, Outlet } from "react-router-dom";
 import "./defaultLayout.scss"
+import AppLoader from "../components/appLoader/AppLoader";
+import { useGlobalContext } from "../contexts/GlobalContext";
+import logo from "../assets/logo/logo.png"
+
+
 const DefaultLayout = () => {
+
+    const { isLoading } = useGlobalContext();
     return (
         <>
             <header >
                 <nav className="container">
                     <ul>
+                        <li className="d-flex justify-content-center align-items-center">
+                            <img className="rounded rounded-5" src={logo} alt="logo" />
+                        </li>
                         <li>
                             <NavLink to="/">Home</NavLink>
                         </li>
@@ -17,10 +27,12 @@ const DefaultLayout = () => {
             </header>
             <main >
                 <div className="container h-100 d-flex align-items-start  justify-content-center">
-                    <div className="jumbotron">
-                    </div>
+                    <div className="jumbotron"></div>
                     <Outlet></Outlet>
                 </div>
+                {isLoading &&
+                    <AppLoader />
+                }
             </main>
             <footer >
                 <div className="container h-100">

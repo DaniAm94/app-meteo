@@ -20,6 +20,15 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &:hover {
+    color: #FFD700;
+    /* Colore dorato per il testo */
+    border-color: #FFD700;
+    /* Colore dorato per il bordo */
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    /* Ombra dorata */
+  }
 }
 
 

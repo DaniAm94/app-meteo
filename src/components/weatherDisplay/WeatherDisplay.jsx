@@ -47,7 +47,7 @@ const WeatherDisplay = ({ location, onClose, isFavourite }) => {
                     {!isFavourite && <span className={`tooltip_wrapper ${weatherDisplay.fav_button_wrapper}`}>
                         <span className="weather_tooltip">Aggiungi ai preferiti</span>
                         <button
-                            className={weatherDisplay.fav_button}
+                            className="button_md"
                             onClick={() => setFavourites(location)}
                         >
 

@@ -45,6 +45,9 @@ const ContextProvider = ({ children }) => {
     // State che indica se mostrare o no la modale con le condizioni meteo
     const [showWeatherConditions, setShowWeatherConditions] = useState(false);
 
+    // State che controlla il loader dell'app
+    const [isLoading, setIsLoading] = useState(false);
+
 
 
     /**
@@ -55,6 +58,7 @@ const ContextProvider = ({ children }) => {
      */
     const fetchWeatherConditions = async (location, hasReturn) => {
 
+        setIsLoading(true);
         // Configuro i miei params per la query string
         const params = {
 
@@ -87,13 +91,15 @@ const ContextProvider = ({ children }) => {
 
         } catch (err) {
             console.error(err);
+        } finally {
+            setIsLoading(false);
         }
     }
 
 
     return (
         <Context.Provider
-            value={{ fetchWeatherConditions, locationWeather, setLocationWeather, showWeatherConditions, setShowWeatherConditions, weatherCodeMap }}
+            value={{ fetchWeatherConditions, locationWeather, setLocationWeather, showWeatherConditions, setShowWeatherConditions, weatherCodeMap, isLoading, setIsLoading }}
         >
             {children}
         </Context.Provider>
