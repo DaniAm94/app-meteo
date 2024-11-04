@@ -2,6 +2,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import "./defaultLayout.scss"
 import AppLoader from "../components/appLoader/AppLoader";
 import { useGlobalContext } from "../contexts/GlobalContext";
+import logo from "../assets/logo/logo.png"
 
 
 const DefaultLayout = () => {
@@ -12,6 +13,9 @@ const DefaultLayout = () => {
             <header >
                 <nav className="container">
                     <ul>
+                        <li className="d-flex justify-content-center align-items-center">
+                            <img className="rounded rounded-5" src={logo} alt="logo" />
+                        </li>
                         <li>
                             <NavLink to="/">Home</NavLink>
                         </li>
