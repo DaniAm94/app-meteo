@@ -17,7 +17,7 @@ const LocationsList = ({ locations, fetchWeatherConditions }) => {
                     >
 
                         <button
-                            className=" bg-transparent border-0 w-100 h-100"
+                            className="d-flex flex-column bg-transparent border-0 w-100 h-100"
                             onMouseEnter={() => setHoveredIndex(index)}
                             onMouseLeave={() => setHoveredIndex(null)}
                             onClick={() => {
@@ -25,14 +25,14 @@ const LocationsList = ({ locations, fetchWeatherConditions }) => {
                             }
                             }
                         >
-                            <div className={locationList.accordion_trigger}>
+                            <div className="w-100 p-1">
                                 <span className={`fi fi-${location.country_code.toLowerCase()}`}></span>
 
                                 {` - ${location.name}`}
                             </div>
 
                             {/* Mostra la regione e la provincia se presenti, e se la provincia non corrisponde alla località cercata */}
-                            <small className={`${locationList.accordion_window} ${hoveredIndex === index ? locationList.triggered : ''}`}>{`
+                            <small className={`${locationList.accordion_window} ${hoveredIndex === index ? locationList.triggered : ''} w-100`}>{`
                                     ${location.admin1 ? location.admin1 : ''}
 
                                     ${location.admin2 ?
