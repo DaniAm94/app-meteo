@@ -118,16 +118,19 @@ const WeatherDisplay = ({ location, onClose, isFavourite }) => {
                     </div>
 
                     {/* Bottone chiusura */}
-                    <button
-                        onClick={onClose}
-                        className={`button_md ${weatherDisplay.close_button}`}
-                    >
-                        <FaXmark />
+                    <span className={`tooltip_wrapper ${weatherDisplay.close_button}`}>
+                        <span className="weather_tooltip">Chiudi</span>
+                        <button
+                            onClick={onClose}
+                            className="button_md"
+                        >
+                            <FaXmark />
 
-                    </button>
+                        </button>
+                    </span>
                 </div>
 
-            </div>
+            </div >
         </>
 
     )

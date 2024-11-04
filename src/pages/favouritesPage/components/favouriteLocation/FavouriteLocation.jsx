@@ -28,7 +28,9 @@ const FavouriteLocation = ({ favLocation, onRemove, showDetails }) => {
 
         {/* Temperatura */}
         <td>
-            {favLocation.temperature_2m}
+            <div className="d-flex justify-content-center align-items-center">
+                {favLocation.temperature_2m}
+            </div>
         </td>
 
         {/* Meteo attuale */}
