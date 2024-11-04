@@ -113,3 +113,15 @@
 
     }
 }
+
+@media screen and (min-width: 576px) {
+    .overlay>.weather_modal {
+        width: 60%;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .overlay>.weather_modal {
+        width: 40%;
+    }
+}
