@@ -6,7 +6,7 @@
     right: 0;
     background-color: rgba($color: black, $alpha: .4);
     backdrop-filter: blur(2px);
-    z-index: 5;
+    z-index: 50;
 
     .loader {
         position: absolute;
@@ -14,6 +14,17 @@
         left: 50%;
         transform: translate(-50%, -50%);
         width: 100px;
-        height: auto;
+        height: 100px;
+        background-image: url('/loader/rain.gif');
+        background-size: cover;
+        color: #7cb7d9;
+
+        &::after {
+            content: 'Caricamento...';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
     }
 }

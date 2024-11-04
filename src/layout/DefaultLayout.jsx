@@ -6,7 +6,7 @@ import { useGlobalContext } from "../contexts/GlobalContext";
 
 const DefaultLayout = () => {
 
-    const { isLoading } = useGlobalContext;
+    const { isLoading } = useGlobalContext();
     return (
         <>
             <header >
