@@ -44,17 +44,21 @@ const WeatherDisplay = ({ location, onClose, isFavourite }) => {
                 <div className={weatherDisplay.weather_modal}>
 
                     {/* Bottone per aggiungere o rimuovere una location dai preferiti */}
-                    {!isFavourite && <button
-                        className={weatherDisplay.fav_button}
-                        onClick={() => setFavourites(location)}
-                    >
+                    {!isFavourite && <span className={`tooltip_wrapper ${weatherDisplay.fav_button_wrapper}`}>
+                        <span className="weather_tooltip">Aggiungi ai preferiti</span>
+                        <button
+                            className={weatherDisplay.fav_button}
+                            onClick={() => setFavourites(location)}
+                        >
 
-                        {/* Ternario per toggolare le due icone */}
-                        {!includesFavourite(undefined, location) ?
-                            <FaRegStar /> :
-                            <FaStar />
-                        }
-                    </button>}
+                            {/* Ternario per toggolare le due icone */}
+                            {!includesFavourite(undefined, location) ?
+                                <FaRegStar /> :
+                                <FaStar />
+                            }
+                        </button>
+                    </span>
+                    }
                     <div className={weatherDisplay.weather_modal_header}>
 
 
@@ -116,7 +120,7 @@ const WeatherDisplay = ({ location, onClose, isFavourite }) => {
                     {/* Bottone chiusura */}
                     <button
                         onClick={onClose}
-                        className={weatherDisplay.close_button}
+                        className={`button_md ${weatherDisplay.close_button}`}
                     >
                         <FaXmark />
 

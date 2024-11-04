@@ -1,9 +1,9 @@
 .overlay {
     position: fixed;
-    top: 60px;
+    top: 0;
     left: 0;
     right: 0;
-    bottom: 80px;
+    bottom: 0;
     background-color: rgba($color: black, $alpha: .4);
     backdrop-filter: blur(5px);
     z-index: 4;
@@ -20,12 +20,16 @@
         border-radius: 10px;
         width: 80%;
 
-        // Bottone dei preferiti
-        .fav_button {
+        .fav_button_wrapper {
             position: absolute;
             top: -40px;
             left: 50%;
             transform: translateX(-50%);
+
+        }
+
+        // Bottone dei preferiti
+        .fav_button {
             background-color: transparent;
             border-radius: 10px;
             color: white;
@@ -43,8 +47,7 @@
 
             // Country code, localita
             h2 {
-                font-size: 2.5rem;
-                text-wrap: nowrap;
+                font-size: 1.5rem;
 
 
             }
@@ -104,14 +107,6 @@
             bottom: -40px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: transparent;
-            border-radius: 10px;
-            color: white;
-            border-color: white;
-            padding: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
 

@@ -33,8 +33,8 @@ const FavouriteLocation = ({ favLocation, onRemove, showDetails }) => {
 
         {/* Meteo attuale */}
         <td className={favouriteLocation.location_item}>
-            <span className={favouriteLocation.tooltip_wrapper}>
-                <span className={favouriteLocation.weather_tooltip}>
+            <span className="tooltip_wrapper">
+                <span className="weather_tooltip">
                     {weatherCodeMap[favLocation.weather_code]}
                 </span>
                 <img src={icons[`../../../../assets/icons/${weatherCodeMap[favLocation.weather_code]}.png`]?.default} alt={weatherCodeMap[favLocation.weather_code]} />
@@ -46,19 +46,19 @@ const FavouriteLocation = ({ favLocation, onRemove, showDetails }) => {
             <div className={favouriteLocation.button_group}>
 
                 {/* Mostra dettagli */}
-                <span className={favouriteLocation.tooltip_wrapper}>
-                    <span className={favouriteLocation.weather_tooltip}>Vedi dettagli</span>
-                    <button onClick={() => showDetails(favLocation)}>
+                <span className="tooltip_wrapper">
+                    <span className="weather_tooltip">Vedi dettagli</span>
+                    <button className="button_sm" onClick={() => showDetails(favLocation)}>
                         <CiCircleMore />
 
                     </button>
                 </span>
 
                 {/* Elimina dai preferiti */}
-                <span className={favouriteLocation.tooltip_wrapper}>
-                    <span className={favouriteLocation.weather_tooltip}>Rimuovi</span>
+                <span className="tooltip_wrapper">
+                    <span className="weather_tooltip">Rimuovi</span>
 
-                    <button onClick={() => onRemove(favLocation)}>
+                    <button className="button_sm" onClick={() => onRemove(favLocation)}>
                         <FaTrashAlt />
                     </button>
                 </span>

@@ -40,29 +40,9 @@
 .row {
     background-color: rgba($color: black, $alpha: .4);
 
-
-
     th,
     td {
         padding: 3px 10px;
     }
-
-
-
-
-    button {
-        background-color: transparent;
-        border-radius: 7px;
-        color: white;
-        border-color: white;
-        padding: 3px;
-        font-size: .8rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-
-
 
 }
