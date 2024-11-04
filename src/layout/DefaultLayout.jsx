@@ -1,5 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
 import "./defaultLayout.scss"
+import AppLoader from "../components/appLoader/AppLoader";
 const DefaultLayout = () => {
     return (
         <>
@@ -17,10 +18,10 @@ const DefaultLayout = () => {
             </header>
             <main >
                 <div className="container h-100 d-flex align-items-start  justify-content-center">
-                    <div className="jumbotron">
-                    </div>
+                    <div className="jumbotron"></div>
                     <Outlet></Outlet>
                 </div>
+                <AppLoader />
             </main>
             <footer >
                 <div className="container h-100">
