@@ -5,6 +5,7 @@ const icons = import.meta.glob("../../assets/icons/*.png", { eager: true });
 import { useGlobalContext } from "../../contexts/GlobalContext.jsx";
 import { useFavouritesContext } from "../../contexts/FavouritesContext.jsx";
 import { useEffect } from "react";
+import TemperatureChart from "./components/temperatureChart/TemperatureChart.jsx";
 
 
 const WeatherDisplay = () => {
@@ -133,6 +134,7 @@ const WeatherDisplay = () => {
 
                     }
 
+                    <TemperatureChart />
 
                     {/* Bottone chiusura */}
                     <WeatherTooltip
