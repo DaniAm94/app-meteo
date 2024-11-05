@@ -1,6 +1,7 @@
 form.search_form {
     position: relative;
     background-color: rgba($color: black, $alpha: .3);
+    -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
     padding: 5px 10px;
     border-radius: 10px;
@@ -15,16 +16,24 @@ form.search_form {
 
 
     input {
-        background-color: rgba($color: black, $alpha: .5);
+        background-color: rgba($color: black, $alpha: .1);
+        -webkit-backdrop-filter: blur(5px);
         backdrop-filter: blur(5px);
         color: white;
         padding: 0 5px;
         border-radius: 5px;
 
         &:focus {
-            color: #FFD700;
-            border-color: #FFD700;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            border-color: #ffeb9d;
+            box-shadow:
+                0 0 30px rgba(255, 255, 255, 0.8),
+                /* Luce interna più intensa */
+                0 0 60px rgba(255, 204, 0, 0.6),
+                /* Luce media gialla */
+                0 0 90px rgba(255, 204, 0, 0.4);
+            /* Luce esterna gialla */
+            animation: pulsate 1.5s infinite;
+            /* Animazione pulsante */
             outline: none;
         }
 
@@ -32,5 +41,24 @@ form.search_form {
             color: white;
             opacity: 60%;
         }
+    }
+}
+
+/* Animazione per l'effetto pulsante */
+@keyframes pulsate {
+
+    0%,
+    100% {
+        box-shadow:
+            0 0 30px rgba(255, 255, 255, 0.8),
+            0 0 60px rgba(255, 204, 0, 0.6),
+            0 0 90px rgba(255, 204, 0, 0.4);
+    }
+
+    50% {
+        box-shadow:
+            0 0 40px rgba(255, 255, 255, 1),
+            0 0 80px rgba(255, 204, 0, 0.8),
+            0 0 120px rgba(255, 204, 0, 0.6);
     }
 }

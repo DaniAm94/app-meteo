@@ -9,7 +9,7 @@ import { useGlobalContext } from "../../contexts/GlobalContext";
 
 const HomePage = () => {
 
-    const { fetchWeatherConditions, locationWeather, setLocationWeather, setShowWeatherConditions } = useGlobalContext();
+    const { searchLocation, setSearchLocation } = useGlobalContext();
 
 
     // Parametri di default per la geocodifica
@@ -91,11 +91,10 @@ const HomePage = () => {
                 </div>
 
                 {/* Lista delle località */}
-                <LocationsList locations={locations} fetchWeatherConditions={fetchWeatherConditions} setShowDialog={setShowWeatherConditions} />
+                <LocationsList locations={locations} />
 
             </form>
-            {/* Sezione che mostra le condizioni meteo della località scelta */}
-            <WeatherDisplay location={locationWeather} onClose={() => setLocationWeather(null)} isFavourite={false} />
+
         </>
     )
 }

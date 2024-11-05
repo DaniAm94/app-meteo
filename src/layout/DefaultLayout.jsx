@@ -1,13 +1,14 @@
 import { NavLink, Outlet } from "react-router-dom";
 import "./defaultLayout.scss"
 import AppLoader from "../components/appLoader/AppLoader";
+import WeatherDisplay from "../components/weatherDisplay/WeatherDisplay";
 import { useGlobalContext } from "../contexts/GlobalContext";
 import logo from "../assets/logo/logo.png"
 
 
 const DefaultLayout = () => {
 
-    const { isLoading } = useGlobalContext();
+    const { isLoading, searchLocation } = useGlobalContext();
     return (
         <>
             <header >
@@ -30,6 +31,10 @@ const DefaultLayout = () => {
                     <div className="jumbotron"></div>
                     <Outlet></Outlet>
                 </div>
+
+                {/* Modale che mostra le condizioni meteo della località scelta */}
+                {searchLocation ? <WeatherDisplay isFavourite={false} /> : null}
+
                 {isLoading &&
                     <AppLoader />
                 }

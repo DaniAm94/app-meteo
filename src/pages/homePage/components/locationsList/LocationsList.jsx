@@ -1,7 +1,10 @@
 import { useState } from "react";
 import locationList from "./locationList.module.scss"
+import { useGlobalContext } from "../../../../contexts/GlobalContext";
 
-const LocationsList = ({ locations, fetchWeatherConditions }) => {
+const LocationsList = ({ locations }) => {
+
+    const { setSearchLocation } = useGlobalContext();
 
     const [hoveredIndex, setHoveredIndex] = useState(null);
 
@@ -21,7 +24,7 @@ const LocationsList = ({ locations, fetchWeatherConditions }) => {
                             onMouseEnter={() => setHoveredIndex(index)}
                             onMouseLeave={() => setHoveredIndex(null)}
                             onClick={() => {
-                                fetchWeatherConditions(location, false)
+                                setSearchLocation(location)
                             }
                             }
                         >

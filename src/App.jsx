@@ -3,22 +3,24 @@ import DefaultLayout from "./layout/DefaultLayout";
 import HomePage from "./pages/homePage/HomePage";
 import FavouritesPage from "./pages/favouritesPage/FavouritesPage";
 import { ContextProvider } from "./contexts/GlobalContext";
+import { FavouritesProvider } from "./contexts/FavouritesContext";
 
 function App() {
 
   return (
     <BrowserRouter>
       <ContextProvider>
+        <FavouritesProvider>
+          <Routes>
 
-        <Routes>
+            {/* Lista rotte */}
+            <Route element={<DefaultLayout />}>
+              <Route index element={<HomePage />} />
+              <Route path="preferiti" element={<FavouritesPage />} />
+            </Route>
 
-          {/* Lista rotte */}
-          <Route element={<DefaultLayout />}>
-            <Route index element={<HomePage />} />
-            <Route path="preferiti" element={<FavouritesPage />} />
-          </Route>
-
-        </Routes>
+          </Routes>
+        </FavouritesProvider>
       </ContextProvider>
     </BrowserRouter>
   )

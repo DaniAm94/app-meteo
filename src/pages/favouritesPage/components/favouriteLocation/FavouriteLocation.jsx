@@ -12,7 +12,10 @@ const FavouriteLocation = ({ favLocation, onRemove, showDetails }) => {
 
         {/* Nome località */}
         <td className="d-flex align-items-center column-gap-1">
-            <span className={` flex-shrink-0 fi fi-${favLocation.country_code.toLowerCase()}`}></span>
+            <span className="tooltip_wrapper">
+                <span className="weather_tooltip">{favLocation.country}</span>
+                <span className={` flex-shrink-0 fi fi-${favLocation.country_code.toLowerCase()}`}></span>
+            </span>
             {`${favLocation.name}`}
         </td>
 
