@@ -7,8 +7,13 @@ import axios from 'axios';
 const TemperatureChart = ({ location }) => {
 
 
+    // State che salva l'andamento della temperatura
     const [tempTrend, setTempTrend] = useState(null)
 
+
+    /**
+     * Funzione che raccoglie l'andamento della temperatura di una località da oggi a domani
+     */
     const fetchWeatherData = async () => {
 
         // Configurazione dei parametri per la richiesta API
@@ -22,10 +27,6 @@ const TemperatureChart = ({ location }) => {
 
         try {
             const { data: res } = await axios.get(baseUrl, { params });
-            console.log(res)
-
-
-
 
             setTempTrend(res.hourly.time.map((time, index) => ({
                 time,
@@ -37,19 +38,15 @@ const TemperatureChart = ({ location }) => {
     }
 
 
-
+    // Use effect per fetchare i dati al montaggio del componente
     useEffect(() => {
-
-
-
-
         fetchWeatherData();
     }, [])
 
 
 
 
-    // Componente tooltip personalizzato
+    // Componente tooltip personalizzato per il grafico
     const CustomTooltip = ({ active, payload, label }) => {
         if (active && payload && payload.length) {
             const formattedDate = format(new Date(label), "HH:mm dd/MM/yyyy");
@@ -60,7 +57,7 @@ const TemperatureChart = ({ location }) => {
                     padding: '3px',
                     border: '1px solid #ccc',
                     borderRadius: '5px',
-                    fontSize: '10px' // Regola il font size
+                    fontSize: '10px'
                 }}>
                     <p style={{ margin: 0 }}>{`Ora: ${formattedDate}`}</p>
                     <p style={{ margin: 0 }}>{`Temperatura: ${payload[0].value}°C`}</p>
@@ -70,7 +67,8 @@ const TemperatureChart = ({ location }) => {
 
         return null;
     };
-    // Ottieni l'ora attuale in formato ISO
+
+    //  Per avere l'ora attuale in formato ISO
     const currentDate = new Date();
     const currentHourISO = `${currentDate.toISOString().slice(0, 10)}T${currentDate.getHours().toString().padStart(2, '0')}:00`;
 
@@ -89,6 +87,8 @@ const TemperatureChart = ({ location }) => {
                 />
                 <YAxis
                     tick={{ fontSize: 6 }}
+
+                    // Setta il dominio dell'asse y (temperatura minima -2, temperatura massima +2)
                     domain={[
                         tempTrend && tempTrend.length > 0 ? Math.min(...tempTrend.map(t => t.temperature)) - 2 : 0,
                         tempTrend && tempTrend.length > 0 ? Math.max(...tempTrend.map(t => t.temperature)) + 2 : 5,
@@ -97,11 +97,13 @@ const TemperatureChart = ({ location }) => {
                 <Tooltip
                     content={<CustomTooltip />}
                 />
+
+                {/* Marca l'ora attuale */}
                 <ReferenceLine
                     x={currentHourISO}
                     stroke="red"
                     strokeDasharray="3 3"
-                    label={{ value: "Adesso", fill: "red", fontSize: 8, angle: 90, offset: 10, position: 'right' }} // Modifica fontSize per rimpicciolire il testo 
+                    label={{ value: "Adesso", fill: "red", fontSize: 8, angle: 90, offset: 10, position: 'right' }}
                 />
             </AreaChart>
         </ResponsiveContainer>
