@@ -40,10 +40,13 @@ const ContextProvider = ({ children }) => {
     }
 
     // State che salva la località con le relative condizioni meteo
-    const [locationWeather, setLocationWeather] = useState(null)
+    const [searchLocation, setSearchLocation] = useState(null)
 
-    // State che indica se mostrare o no la modale con le condizioni meteo
-    const [showWeatherConditions, setShowWeatherConditions] = useState(false);
+    // Indica se la location cercata ha le condizioni meteo
+    const [hasWeatherConditions, setHasWeatherConditions] = useState(false);
+
+
+
 
     // State che controlla il loader dell'app
     const [isLoading, setIsLoading] = useState(false);
@@ -82,11 +85,11 @@ const ContextProvider = ({ children }) => {
 
             } else {
 
-                setLocationWeather({
+                setSearchLocation({
                     ...location,
                     ...data.current
                 })
-                setShowWeatherConditions(true)
+                setHasWeatherConditions(true);
             }
 
         } catch (err) {
@@ -99,7 +102,7 @@ const ContextProvider = ({ children }) => {
 
     return (
         <Context.Provider
-            value={{ fetchWeatherConditions, locationWeather, setLocationWeather, showWeatherConditions, setShowWeatherConditions, weatherCodeMap, isLoading, setIsLoading }}
+            value={{ fetchWeatherConditions, searchLocation, setSearchLocation, hasWeatherConditions, setHasWeatherConditions, weatherCodeMap, isLoading, setIsLoading }}
         >
             {children}
         </Context.Provider>

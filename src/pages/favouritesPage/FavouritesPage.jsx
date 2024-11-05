@@ -1,31 +1,28 @@
 import { useEffect, useState } from "react";
-import useFavourites from "../../hooks/useFavourites";
 import favouritesPage from "./favouritesPage.module.scss";
 import FavouriteLocation from "./components/favouriteLocation/favouriteLocation";
 import { useGlobalContext } from "../../contexts/GlobalContext";
-import WeatherDisplay from "../../components/weatherDisplay/WeatherDisplay.jsx";
 import { FaGamepad } from "react-icons/fa6";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
+import { useFavouritesContext } from "../../contexts/FavouritesContext.jsx";
+import WeatherTooltip from "../../components/weatherTooltip/WeatherTooltip.jsx";
 
 
 
 const FavouritesPage = () => {
 
-    const [favourites, setFavourites] = useFavourites()
 
-    const { fetchWeatherConditions, locationWeather, setLocationWeather } = useGlobalContext();
+    const { favourites, changeFavourites } = useFavouritesContext();
+
+
+    const { fetchWeatherConditions, setSearchLocation } = useGlobalContext();
 
     // State che tiene memoria del tipo di ordinamento: crescente o decrescente
     const [order, setOrder] = useState("asc");
 
 
-    // State dove conservare la lista delle location preferite con le loro condizioni meteo
-    const [locationsWeatherList, setLocationsWeatherList] = useState([])
-
-
     // Use Effetc per fetchare le condizioni meteo di tutte le location al rendering della pagina
     useEffect(() => {
-
         const fetchAllWeatherConditions = async () => {
             try {
                 const weatherData = await Promise.all(
@@ -34,7 +31,7 @@ const FavouritesPage = () => {
                         return { ...location, ...weather };
                     })
                 );
-                setLocationsWeatherList(weatherData);
+                changeFavourites((curr) => weatherData);
             } catch (error) {
                 console.error(error);
             }
@@ -50,38 +47,29 @@ const FavouritesPage = () => {
      * @param {Object} location 
      */
     const removeFavourite = (location) => {
-
-        setFavourites(curr =>
-            curr.filter(fav => fav.id !== location.id)
-        );
-
-        setLocationsWeatherList(curr =>
-            curr.filter(fav => fav.id !== location.id)
-        );
+        //La location verra rimossa perchè già presente tra i preferiti
+        changeFavourites(location);
     }
 
     /**
      * Funzione che ordina i preferiti in base alla temperatura
      */
     const orderByTemp = () => {
-        if (locationsWeatherList.length) {
+        setOrder((prevOrder) => prevOrder === "asc" ? "desc" : "asc");
+    };
 
-            setLocationsWeatherList(curr => {
-                const sortedFavourites = [...curr];
-                sortedFavourites.sort((a, b) => {
-                    return order === "asc" ?
-                        a.temperature_2m - b.temperature_2m :
-                        b.temperature_2m - a.temperature_2m;
-                })
-                setOrder(order === "asc" ? "desc" : "asc");
-                return sortedFavourites;
-            })
-        }
-    }
+    useEffect(() => {
+        const sortedFavourites = [...favourites].sort((a, b) => {
+            return order === "asc"
+                ? a.temperature_2m - b.temperature_2m
+                : b.temperature_2m - a.temperature_2m;
+        });
+        changeFavourites(() => sortedFavourites)
+    }, [order])
+
 
     return (
         <div className={favouritesPage.table_wrapper}>
-
             <table className={favouritesPage.favourites_table}>
                 <thead>
                     <tr className={favouritesPage.row}>
@@ -92,7 +80,7 @@ const FavouritesPage = () => {
                         </th>
 
                         {/* Regione */}
-                        <th className="d-none d-sm-table-cell">
+                        <th className="d-none d-sm-table-cell ">
                             Regione
                         </th>
 
@@ -137,20 +125,19 @@ const FavouritesPage = () => {
 
                 {/* Corpo tabella */}
                 <tbody>
-                    {favourites.length > 0 ?
-                        locationsWeatherList.map(location => <tr
+                    {favourites?.length > 0 ?
+                        favourites.map(location => <tr
                             className={favouritesPage.row}
                             key={location.id}
                         >
-                            <FavouriteLocation favLocation={location} onRemove={removeFavourite} showDetails={setLocationWeather} />
+                            <FavouriteLocation favLocation={location} onRemove={removeFavourite} showDetails={setSearchLocation} />
                         </tr>) :
                         <tr className={favouritesPage.row}><td colSpan={6}>Non ci sono preferiti</td></tr>
                     }
                 </tbody>
             </table>
 
-            {/* Modale che mostra i dettagli */}
-            <WeatherDisplay location={locationWeather} onClose={() => setLocationWeather(null)} isFavourite={true} />
+
         </div>
     )
 }

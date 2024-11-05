@@ -1,7 +1,11 @@
 import { useState } from "react";
 import locationList from "./locationList.module.scss"
+import { useGlobalContext } from "../../../../contexts/GlobalContext";
+import WeatherTooltip from "../../../../components/weatherTooltip/WeatherTooltip.jsx";
 
-const LocationsList = ({ locations, fetchWeatherConditions }) => {
+const LocationsList = ({ locations }) => {
+
+    const { setSearchLocation } = useGlobalContext();
 
     const [hoveredIndex, setHoveredIndex] = useState(null);
 
@@ -21,12 +25,16 @@ const LocationsList = ({ locations, fetchWeatherConditions }) => {
                             onMouseEnter={() => setHoveredIndex(index)}
                             onMouseLeave={() => setHoveredIndex(null)}
                             onClick={() => {
-                                fetchWeatherConditions(location, false)
+                                setSearchLocation(location)
                             }
                             }
                         >
                             <div className="w-100 p-1">
-                                <span className={`fi fi-${location.country_code.toLowerCase()}`}></span>
+                                <WeatherTooltip
+                                    text={location.country}
+                                >
+                                    <span className={`fi fi-${location.country_code.toLowerCase()}`}></span>
+                                </WeatherTooltip>
 
                                 {` - ${location.name}`}
                             </div>

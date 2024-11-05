@@ -4,6 +4,7 @@ import { CiCircleMore } from "react-icons/ci";
 import { useGlobalContext } from "../../../../contexts/GlobalContext";
 const icons = import.meta.glob("../../../../assets/icons/*.png", { eager: true });
 import favouriteLocation from "./favouriteLocation.module.scss";
+import WeatherTooltip from "../../../../components/weatherTooltip/WeatherTooltip";
 
 const FavouriteLocation = ({ favLocation, onRemove, showDetails }) => {
 
@@ -12,7 +13,12 @@ const FavouriteLocation = ({ favLocation, onRemove, showDetails }) => {
 
         {/* Nome località */}
         <td className="d-flex align-items-center column-gap-1">
-            <span className={` flex-shrink-0 fi fi-${favLocation.country_code.toLowerCase()}`}></span>
+            <WeatherTooltip
+                text={favLocation.country}
+            >
+                <span className={` flex-shrink-0 fi fi-${favLocation.country_code.toLowerCase()}`}></span>
+            </WeatherTooltip>
+
             {`${favLocation.name}`}
         </td>
 
@@ -35,12 +41,11 @@ const FavouriteLocation = ({ favLocation, onRemove, showDetails }) => {
 
         {/* Meteo attuale */}
         <td className={favouriteLocation.location_item}>
-            <span className="tooltip_wrapper">
-                <span className="weather_tooltip">
-                    {weatherCodeMap[favLocation.weather_code]}
-                </span>
+            <WeatherTooltip
+                text={weatherCodeMap[favLocation.weather_code]}
+            >
                 <img src={icons[`../../../../assets/icons/${weatherCodeMap[favLocation.weather_code]}.png`]?.default} alt={weatherCodeMap[favLocation.weather_code]} />
-            </span>
+            </WeatherTooltip>
         </td>
 
         {/* Pulsanti */}
@@ -48,22 +53,22 @@ const FavouriteLocation = ({ favLocation, onRemove, showDetails }) => {
             <div className={favouriteLocation.button_group}>
 
                 {/* Mostra dettagli */}
-                <span className="tooltip_wrapper">
-                    <span className="weather_tooltip">Vedi dettagli</span>
+                <WeatherTooltip
+                    text="Vedi dettagli"
+                >
                     <button className="button_sm" onClick={() => showDetails(favLocation)}>
                         <CiCircleMore />
-
                     </button>
-                </span>
+                </WeatherTooltip>
 
                 {/* Elimina dai preferiti */}
-                <span className="tooltip_wrapper">
-                    <span className="weather_tooltip">Rimuovi</span>
-
+                <WeatherTooltip
+                    text="Rimuovi"
+                >
                     <button className="button_sm" onClick={() => onRemove(favLocation)}>
                         <FaTrashAlt />
                     </button>
-                </span>
+                </WeatherTooltip>
             </div>
         </td>
     </>

@@ -1,17 +1,20 @@
 import { FaRegStar, FaStar, FaXmark } from "react-icons/fa6";
-import useFavourites from "../../hooks/useFavourites.jsx";
 import weatherDisplay from "./weatherDisplay.module.scss"
+import WeatherTooltip from "../weatherTooltip/WeatherTooltip.jsx";
 const icons = import.meta.glob("../../assets/icons/*.png", { eager: true });
 import { useGlobalContext } from "../../contexts/GlobalContext.jsx";
+import { useFavouritesContext } from "../../contexts/FavouritesContext.jsx";
+import { useEffect } from "react";
 
 
-const WeatherDisplay = ({ location, onClose, isFavourite }) => {
+const WeatherDisplay = () => {
 
-    // Se le condizioni meteorologiche sono null blocco il rendering del componente
-    if (location === null) return null;
+    const { weatherCodeMap, searchLocation, setSearchLocation, fetchWeatherConditions, hasWeatherConditions, setHasWeatherConditions } = useGlobalContext()
+    const { changeFavourites, includesFavourite } = useFavouritesContext();
 
-
-    const { weatherCodeMap } = useGlobalContext()
+    useEffect(() => {
+        fetchWeatherConditions(searchLocation, false);
+    }, [])
 
 
     /**
@@ -33,105 +36,125 @@ const WeatherDisplay = ({ location, onClose, isFavourite }) => {
         return directions[index];
     }
 
-    const [favourites, setFavourites, includesFavourite] = useFavourites();
-
-
-
-
     return (
         <>
+
             <div className={weatherDisplay.overlay}>
                 <div className={weatherDisplay.weather_modal}>
 
                     {/* Bottone per aggiungere o rimuovere una location dai preferiti */}
-                    {!isFavourite && <span className={`tooltip_wrapper ${weatherDisplay.fav_button_wrapper}`}>
-                        <span className="weather_tooltip">Aggiungi ai preferiti</span>
+
+
+                    <WeatherTooltip
+                        className={weatherDisplay.fav_button_wrapper}
+                        text={
+                            !includesFavourite(undefined, searchLocation) ?
+                                'Aggiungi ai preferiti' :
+                                'Rimuovi dai preferiti'
+                        }>
                         <button
                             className="button_md"
-                            onClick={() => setFavourites(location)}
+                            onClick={() => changeFavourites(searchLocation)}
                         >
 
                             {/* Ternario per toggolare le due icone */}
-                            {!includesFavourite(undefined, location) ?
+                            {!includesFavourite(undefined, searchLocation) ?
                                 <FaRegStar /> :
                                 <FaStar />
                             }
                         </button>
-                    </span>
-                    }
-                    <div className={weatherDisplay.weather_modal_header}>
+                    </WeatherTooltip>
 
+
+                    <div className={weatherDisplay.weather_modal_header}>
 
                         {/* Informazioni sulla località */}
                         <h2>
-                            <span className={`fi fi-${location.country_code.toLowerCase()}`}></span>
-                            {` - ${location.name}`}
+                            <WeatherTooltip
+                                text={searchLocation.country}
+                            >
+                                <span className={`fi fi-${searchLocation.country_code.toLowerCase()}`}></span>
+                            </WeatherTooltip>
+
+                            {` - ${searchLocation.name}`}
 
 
                         </h2>
 
                         <h3>{
-                            `${location.admin1 ?
-                                location.admin1 :
+                            `${searchLocation.admin1 ?
+                                searchLocation.admin1 :
                                 ''}
-    ${location.admin2 ?
-                                location.admin2 !== location.name ?
-                                    ' - ' + location.admin2 :
+                            ${searchLocation.admin2 ?
+                                searchLocation.admin2 !== searchLocation.name ?
+                                    ' - ' + searchLocation.admin2 :
                                     '' :
                                 ''}`
                         }</h3>
                     </div>
 
+                    {hasWeatherConditions && <div>
 
-                    {/* Informaizoni sul meteo */}
 
-                    {/* Condizione attuale */}
-                    <div className={weatherDisplay.current_meteo}>
-                        <h4>{weatherCodeMap[location.weather_code]}</h4>
-                        <img src={icons[`../../assets/icons/${weatherCodeMap[location.weather_code]}.png`]?.default} alt={weatherCodeMap[location.weather_code]} />
+                        {/* Informaizoni sul meteo */}
+
+                        {/* Condizione attuale */}
+                        <div className={weatherDisplay.current_meteo}>
+                            <h4>{weatherCodeMap[searchLocation.weather_code]}</h4>
+                            <img src={icons[`../../assets/icons/${weatherCodeMap[searchLocation.weather_code]}.png`]?.default} alt={weatherCodeMap[searchLocation.weather_code]} />
+                        </div>
+
+                        {/* Temperatura */}
+                        <h4>{`${Math.round(searchLocation.temperature_2m)}°C`}</h4>
+                        <div>
+                            <h4>
+                                Percepiti: {`${searchLocation.apparent_temperature}°C`}
+                            </h4>
+                        </div>
+
+                        {/* Vento */}
+                        <div className={weatherDisplay.wind}>
+                            <h5>Vento:</h5>
+                            {`${searchLocation.wind_speed_10m}km/h da ${windDirectionString(searchLocation.wind_direction_10m)}`}
+                        </div>
+
+                        {/* Umidità */}
+                        <div className={weatherDisplay.humidity}>
+                            <h5>Umidità: </h5>
+                            {`${searchLocation.relative_humidity_2m}%`}
+                        </div>
+
+                        {/* Nuvolosità */}
+                        <div className={weatherDisplay.cloud_cover}>
+                            <h5>Nuvolosità:</h5>
+                            {`${searchLocation.cloud_cover}%`}
+                        </div>
                     </div>
 
-                    {/* Temperatura */}
-                    <h4>{`${Math.round(location.temperature_2m)}°C`}</h4>
-                    <div>
-                        <h4>
-                            Percepiti: {`${location.apparent_temperature}°C`}
-                        </h4>
-                    </div>
+                    }
 
-                    {/* Vento */}
-                    <div className={weatherDisplay.wind}>
-                        <h5>Vento:</h5>
-                        {`${location.wind_speed_10m}km/h da ${windDirectionString(location.wind_direction_10m)}`}
-                    </div>
-
-                    {/* Umidità */}
-                    <div className={weatherDisplay.humidity}>
-                        <h5>Umidità: </h5>
-                        {`${location.relative_humidity_2m}%`}
-                    </div>
-
-                    {/* Nuvolosità */}
-                    <div className={weatherDisplay.cloud_cover}>
-                        <h5>Nuvolosità:</h5>
-                        {`${location.cloud_cover}%`}
-                    </div>
 
                     {/* Bottone chiusura */}
-                    <span className={`tooltip_wrapper ${weatherDisplay.close_button}`}>
-                        <span className="weather_tooltip">Chiudi</span>
+                    <WeatherTooltip
+                        className={weatherDisplay.close_button}
+                        text="Chiudi"
+                    >
                         <button
-                            onClick={onClose}
+                            onClick={() => {
+                                setHasWeatherConditions(false)
+                                setSearchLocation(null)
+                            }}
                             className="button_md"
                         >
                             <FaXmark />
 
                         </button>
-                    </span>
+                    </WeatherTooltip>
                 </div>
 
             </div >
         </>
+
 
     )
 }
