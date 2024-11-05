@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import favouritesPage from "./favouritesPage.module.scss";
-import FavouriteLocation from "./components/favouriteLocation/favouriteLocation";
+import FavouriteLocation from "./components/favouriteLocation/FavouriteLocation.jsx";
 import { useGlobalContext } from "../../contexts/GlobalContext";
 import { FaGamepad } from "react-icons/fa6";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { useFavouritesContext } from "../../contexts/FavouritesContext.jsx";
-import WeatherTooltip from "../../components/weatherTooltip/WeatherTooltip.jsx";
 
 
 
