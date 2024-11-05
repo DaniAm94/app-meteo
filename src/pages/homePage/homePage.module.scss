@@ -10,9 +10,9 @@ form.search_form {
     &:focus-within {
         border-color: #ffeb9d;
         box-shadow:
-            0 0 30px rgba(255, 255, 255, 0.8), // luce interna
-            0 0 60px rgba(255, 204, 0, 0.6), // luce intermedia
-            0 0 90px rgba(255, 204, 0, 0.4); // luce esterna 
+            0 0 15px rgba(255, 255, 255, 0.8), // luce interna
+            0 0 30px rgba(255, 204, 0, 0.6), // luce intermedia
+            0 0 45px rgba(255, 204, 0, 0.4); // luce esterna 
         animation: pulsate 1.5s infinite;
     }
 
@@ -50,15 +50,15 @@ form.search_form {
     0%,
     100% {
         box-shadow:
-            0 0 30px rgba(255, 255, 255, 0.8),
-            0 0 60px rgba(255, 204, 0, 0.6),
-            0 0 90px rgba(255, 204, 0, 0.4);
+            0 0 15px rgba(255, 255, 255, 0.8),
+            0 0 30px rgba(255, 204, 0, 0.6),
+            0 0 45px rgba(255, 204, 0, 0.4);
     }
 
     50% {
         box-shadow:
-            0 0 40px rgba(255, 255, 255, 1),
-            0 0 80px rgba(255, 204, 0, 0.8),
-            0 0 120px rgba(255, 204, 0, 0.6);
+            0 0 20px rgba(255, 255, 255, 1),
+            0 0 40px rgba(255, 204, 0, 0.8),
+            0 0 60px rgba(255, 204, 0, 0.6);
     }
 }
