@@ -5,6 +5,7 @@ const icons = import.meta.glob("../../assets/icons/*.png", { eager: true });
 import { useGlobalContext } from "../../contexts/GlobalContext.jsx";
 import { useFavouritesContext } from "../../contexts/FavouritesContext.jsx";
 import { useEffect } from "react";
+import TemperatureChart from "./components/temperatureChart/TemperatureChart.jsx";
 
 
 const WeatherDisplay = () => {
@@ -31,7 +32,7 @@ const WeatherDisplay = () => {
         ];
 
         // Calcola l'indice della direzione (ogni direzione avrà un range di 45°)
-        const index = Math.round(((directionDegrees % 360) / 45));
+        const index = Math.round((directionDegrees % 360) / 45) % 8; // il modulo 8 gestisce valori oltre 360
 
         return directions[index];
     }
@@ -133,6 +134,7 @@ const WeatherDisplay = () => {
 
                     }
 
+                    <TemperatureChart location={searchLocation} />
 
                     {/* Bottone chiusura */}
                     <WeatherTooltip
