@@ -1,5 +1,6 @@
 import { FaRegStar, FaStar, FaXmark } from "react-icons/fa6";
 import weatherDisplay from "./weatherDisplay.module.scss"
+import WeatherTooltip from "../weatherTooltip/WeatherTooltip.jsx";
 const icons = import.meta.glob("../../assets/icons/*.png", { eager: true });
 import { useGlobalContext } from "../../contexts/GlobalContext.jsx";
 import { useFavouritesContext } from "../../contexts/FavouritesContext.jsx";
@@ -43,13 +44,14 @@ const WeatherDisplay = () => {
 
                     {/* Bottone per aggiungere o rimuovere una location dai preferiti */}
 
-                    <span className={`tooltip_wrapper ${weatherDisplay.fav_button_wrapper}`}>
-                        <span className="weather_tooltip">
-                            {!includesFavourite(undefined, searchLocation) ?
+
+                    <WeatherTooltip
+                        className={weatherDisplay.fav_button_wrapper}
+                        text={
+                            !includesFavourite(undefined, searchLocation) ?
                                 'Aggiungi ai preferiti' :
                                 'Rimuovi dai preferiti'
-                            }
-                        </span>
+                        }>
                         <button
                             className="button_md"
                             onClick={() => changeFavourites(searchLocation)}
@@ -61,17 +63,19 @@ const WeatherDisplay = () => {
                                 <FaStar />
                             }
                         </button>
-                    </span>
+                    </WeatherTooltip>
 
 
                     <div className={weatherDisplay.weather_modal_header}>
 
                         {/* Informazioni sulla località */}
                         <h2>
-                            <span className="tooltip_wrapper">
-                                <span className="weather_tooltip">{searchLocation.country}</span>
+                            <WeatherTooltip
+                                text={searchLocation.country}
+                            >
                                 <span className={`fi fi-${searchLocation.country_code.toLowerCase()}`}></span>
-                            </span>
+                            </WeatherTooltip>
+
                             {` - ${searchLocation.name}`}
 
 
@@ -131,8 +135,10 @@ const WeatherDisplay = () => {
 
 
                     {/* Bottone chiusura */}
-                    <span className={`tooltip_wrapper ${weatherDisplay.close_button}`}>
-                        <span className="weather_tooltip">Chiudi</span>
+                    <WeatherTooltip
+                        className={weatherDisplay.close_button}
+                        text="Chiudi"
+                    >
                         <button
                             onClick={() => {
                                 setHasWeatherConditions(false)
@@ -143,7 +149,7 @@ const WeatherDisplay = () => {
                             <FaXmark />
 
                         </button>
-                    </span>
+                    </WeatherTooltip>
                 </div>
 
             </div >

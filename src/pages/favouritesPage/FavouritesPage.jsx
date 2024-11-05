@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import favouritesPage from "./favouritesPage.module.scss";
 import FavouriteLocation from "./components/favouriteLocation/favouriteLocation";
 import { useGlobalContext } from "../../contexts/GlobalContext";
-import WeatherDisplay from "../../components/weatherDisplay/WeatherDisplay.jsx";
 import { FaGamepad } from "react-icons/fa6";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { useFavouritesContext } from "../../contexts/FavouritesContext.jsx";
+import WeatherTooltip from "../../components/weatherTooltip/WeatherTooltip.jsx";
 
 
 
@@ -15,7 +15,7 @@ const FavouritesPage = () => {
     const { favourites, changeFavourites } = useFavouritesContext();
 
 
-    const { fetchWeatherConditions, searchLocation, setSearchLocation } = useGlobalContext();
+    const { fetchWeatherConditions, setSearchLocation } = useGlobalContext();
 
     // State che tiene memoria del tipo di ordinamento: crescente o decrescente
     const [order, setOrder] = useState("asc");

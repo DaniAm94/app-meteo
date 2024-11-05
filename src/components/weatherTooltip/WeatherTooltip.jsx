@@ -1,4 +1,4 @@
-
+import "./weatherTooltip.scss";
 
 const WeatherTooltip = ({ children, text, className = '' }) => {
     return (
