@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 const baseUrl = import.meta.env.VITE_BASE_METEO_URL;
 import { format } from "date-fns"
 import axios from 'axios';
+import temperatureChart from "./temperatureChart.module.scss";
+
 
 const TemperatureChart = ({ location }) => {
 
@@ -75,18 +77,20 @@ const TemperatureChart = ({ location }) => {
 
 
     const renderLineChart = (
-        <ResponsiveContainer width="100%" height={200} >
+        <ResponsiveContainer width="100%" height={160} >
 
-            <AreaChart data={tempTrend} margin={{ top: 5, right: 20, bottom: 5, left: -40 }}>
+            <AreaChart data={tempTrend} margin={{ top: 5, right: 0, bottom: -10, left: -45 }}>
                 <Area type="monotone" dataKey="temperature" stroke="#8884d8" />
-                <CartesianGrid stroke="#ccc" strokeDasharray="2 2" />
+                <CartesianGrid stroke="#6a6a6a" strokeDasharray="2 2" />
                 <XAxis
                     dataKey="time"
                     tickFormatter={(time) => format(new Date(time), 'HH:mm')}
-                    tick={{ fontSize: 6 }}
+                    tick={{ fontSize: 6, fill: 'white' }}
+                    stroke='white'
                 />
                 <YAxis
-                    tick={{ fontSize: 6 }}
+                    tick={{ fontSize: 6, fill: 'white' }}
+                    stroke='white'
 
                     // Setta il dominio dell'asse y (temperatura minima -2, temperatura massima +2)
                     domain={[
@@ -116,7 +120,7 @@ const TemperatureChart = ({ location }) => {
             {tempTrend?.length > 0 && <>
                 {renderLineChart}
                 <div
-                    className='text-center'>
+                    className={`${temperatureChart.caption} text-center`}>
                     <strong>Temperatura nelle prossime 24 ore</strong>
                 </div>
             </>

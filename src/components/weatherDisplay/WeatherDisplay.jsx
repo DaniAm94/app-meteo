@@ -54,7 +54,7 @@ const WeatherDisplay = () => {
                                 'Rimuovi dai preferiti'
                         }>
                         <button
-                            className="button_md"
+                            className={`button_md ${includesFavourite(undefined, searchLocation) ? 'button_filled' : ''}`}
                             onClick={() => changeFavourites(searchLocation)}
                         >
 
@@ -106,10 +106,11 @@ const WeatherDisplay = () => {
                         </div>
 
                         {/* Temperatura */}
-                        <h4>{`${Math.round(searchLocation.temperature_2m)}°C`}</h4>
-                        <div>
+                        <div className="d-flex align-items-center column-gap-2">
+                            <h4>{`${Math.round(searchLocation.temperature_2m)}°C`}</h4>
+                            |
                             <h4>
-                                Percepiti: {`${searchLocation.apparent_temperature}°C`}
+                                Percepiti: {`${Math.round(searchLocation.apparent_temperature)}°C`}
                             </h4>
                         </div>
 

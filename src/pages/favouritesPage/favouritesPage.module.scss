@@ -26,13 +26,13 @@
         text-shadow: 1px 1px 5px black;
 
         .temp_button {
-            border-width: 0;
+            border: 1px solid transparent;
             padding: 2px 4px;
             border-radius: 3px;
             text-shadow: 1px 1px 5px black;
 
             &:hover {
-                border-width: 1px;
+                border-color: white;
                 color: white;
                 box-shadow: none;
                 border-color: white;

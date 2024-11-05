@@ -1,6 +1,5 @@
 import { FaTrashAlt } from "react-icons/fa";
 import { CiCircleMore } from "react-icons/ci";
-
 import { useGlobalContext } from "../../../../contexts/GlobalContext";
 const icons = import.meta.glob("../../../../assets/icons/*.png", { eager: true });
 import favouriteLocation from "./favouriteLocation.module.scss";
@@ -12,24 +11,31 @@ const FavouriteLocation = ({ favLocation, onRemove, showDetails }) => {
     return (<>
 
         {/* Nome località */}
-        <td className="d-flex align-items-center column-gap-1">
-            <WeatherTooltip
-                text={favLocation.country}
-            >
-                <span className={` flex-shrink-0 fi fi-${favLocation.country_code.toLowerCase()}`}></span>
-            </WeatherTooltip>
+        <td >
+            <div className="d-flex align-items-center column-gap-1">
+                <WeatherTooltip
+                    text={favLocation.country}
+                >
+                    <span className={` flex-shrink-0 fi fi-${favLocation.country_code.toLowerCase()}`}></span>
+                </WeatherTooltip>
 
-            {`${favLocation.name}`}
+                {`${favLocation.name}`}
+            </div>
         </td>
 
         {/* Regione */}
         <td className="d-none d-sm-table-cell">
-            {favLocation.admin1}
+            <div className="d-flex align-items-center">
+
+                {favLocation.admin1}
+            </div>
         </td>
 
         {/* Provincia */}
         <td className="d-none d-md-table-cell">
-            {favLocation.admin2}
+            <div className="d-flex align-items-center">
+                {favLocation.admin2}
+            </div>
         </td>
 
         {/* Temperatura */}
@@ -41,11 +47,13 @@ const FavouriteLocation = ({ favLocation, onRemove, showDetails }) => {
 
         {/* Meteo attuale */}
         <td className={favouriteLocation.location_item}>
-            <WeatherTooltip
-                text={weatherCodeMap[favLocation.weather_code]}
-            >
-                <img src={icons[`../../../../assets/icons/${weatherCodeMap[favLocation.weather_code]}.png`]?.default} alt={weatherCodeMap[favLocation.weather_code]} />
-            </WeatherTooltip>
+            <div className="d-flex align-items-center">
+                <WeatherTooltip
+                    text={weatherCodeMap[favLocation.weather_code]}
+                >
+                    <img src={icons[`../../../../assets/icons/${weatherCodeMap[favLocation.weather_code]}.png`]?.default} alt={weatherCodeMap[favLocation.weather_code]} />
+                </WeatherTooltip>
+            </div>
         </td>
 
         {/* Pulsanti */}
