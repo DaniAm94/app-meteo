@@ -44,7 +44,7 @@ const FavouriteLocation = ({ favLocation, onRemove, showDetails }) => {
         {/* Temperatura */}
         <td>
             <div className="d-flex justify-content-center align-items-center">
-                {favLocation.temperature_2m}
+                {Math.round(favLocation.temperature_2m)}
             </div>
         </td>
 
