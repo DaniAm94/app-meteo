@@ -32,3 +32,6 @@
 4. **Avvia l'Applicazione**
    ```bash
    npm run dev
+5. **Provala direttamente**
+   ```bash
+   https://app-meteo-nine.vercel.app/
