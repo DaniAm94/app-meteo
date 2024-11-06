@@ -32,7 +32,7 @@ const TemperatureChart = ({ location }) => {
 
             setTempTrend(res.hourly.time.map((time, index) => ({
                 time,
-                temperature: res.hourly.temperature_2m[index]
+                temperature: Math.round(res.hourly.temperature_2m[index])
             })));
         } catch (err) {
             console.error("Errore durante il recupero dei dati meteo: ", err)
@@ -79,7 +79,7 @@ const TemperatureChart = ({ location }) => {
     const renderLineChart = (
         <ResponsiveContainer width="100%" height={160} >
 
-            <AreaChart data={tempTrend} margin={{ top: 5, right: 0, bottom: -10, left: -45 }}>
+            <AreaChart data={tempTrend} margin={{ top: 5, right: 0, bottom: -10, left: -40 }}>
                 <Area type="monotone" dataKey="temperature" stroke="#8884d8" />
                 <CartesianGrid stroke="#6a6a6a" strokeDasharray="2 2" />
                 <XAxis
