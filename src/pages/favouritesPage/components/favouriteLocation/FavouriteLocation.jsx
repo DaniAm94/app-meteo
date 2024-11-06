@@ -7,6 +7,9 @@ import WeatherTooltip from "../../../../components/weatherTooltip/WeatherTooltip
 
 const FavouriteLocation = ({ favLocation, onRemove, showDetails }) => {
 
+    const clipWord = (word, maxLen) => word.length > maxLen ? word.substring(0, maxLen).trim() + '...' : word;
+
+
     const { weatherCodeMap } = useGlobalContext();
     return (<>
 
@@ -19,7 +22,7 @@ const FavouriteLocation = ({ favLocation, onRemove, showDetails }) => {
                     <span className={` flex-shrink-0 fi fi-${favLocation.country_code.toLowerCase()}`}></span>
                 </WeatherTooltip>
 
-                {`${favLocation.name}`}
+                {clipWord(favLocation.name, 10)}
             </div>
         </td>
 

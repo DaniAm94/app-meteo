@@ -102,7 +102,10 @@ const WeatherDisplay = () => {
                         {/* Condizione attuale */}
                         <div className={weatherDisplay.current_meteo}>
                             <h4>{weatherCodeMap[searchLocation.weather_code]}</h4>
-                            <img src={icons[`../../assets/icons/${weatherCodeMap[searchLocation.weather_code]}.png`]?.default} alt={weatherCodeMap[searchLocation.weather_code]} />
+                            <img
+                                src={icons[`../../assets/icons/${weatherCodeMap[searchLocation.weather_code]}.png`]?.default}
+                                alt={weatherCodeMap[searchLocation.weather_code]}
+                            />
                         </div>
 
                         {/* Temperatura */}
