@@ -22,12 +22,10 @@ button {
   justify-content: center;
 
   &:hover {
-    color: #FFD700;
+    color: #FFED8C;
     /* Colore dorato per il testo */
-    border-color: #FFD700;
+    border-color: #FFED8C;
     /* Colore dorato per il bordo */
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-    /* Ombra dorata */
   }
 }
 
